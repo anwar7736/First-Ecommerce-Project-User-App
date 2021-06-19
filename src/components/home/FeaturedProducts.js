@@ -11,7 +11,7 @@ class FeaturedProducts extends React.Component{
               <h6 className="section-sub-title pb-3">Some Of Our Exclusive Collection, You May Like</h6>
               <Row>
                 <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                   <Link className="link" to="/">
+                   <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
@@ -22,7 +22,7 @@ class FeaturedProducts extends React.Component{
                    </Link>
                 </Col>
                 <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                    <Link className="link" to="/">
+                    <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
@@ -33,7 +33,7 @@ class FeaturedProducts extends React.Component{
                    </Link>
                 </Col>
                 <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                   <Link className="link" to="/">
+                   <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
@@ -44,7 +44,7 @@ class FeaturedProducts extends React.Component{
                    </Link>
                 </Col>
                 <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                    <Link className="link" to="/">
+                    <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
@@ -55,7 +55,7 @@ class FeaturedProducts extends React.Component{
                    </Link>
                 </Col>
                 <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                    <Link className="link" to="/">
+                    <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
@@ -66,7 +66,7 @@ class FeaturedProducts extends React.Component{
                    </Link>
                 </Col>
                 <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                    <Link className="link" to="/">
+                    <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
@@ -76,7 +76,7 @@ class FeaturedProducts extends React.Component{
                     </Card>
                    </Link>
                 </Col><Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                    <Link className="link" to="/">
+                    <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
@@ -87,7 +87,7 @@ class FeaturedProducts extends React.Component{
                    </Link>
                 </Col>
                 <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                   <Link className="link" to="/">
+                   <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
@@ -98,7 +98,7 @@ class FeaturedProducts extends React.Component{
                    </Link>
                 </Col>
                 <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                   <Link className="link" to="/">
+                   <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
@@ -109,7 +109,7 @@ class FeaturedProducts extends React.Component{
                    </Link>
                 </Col>
                 <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                    <Link className="link" to="/">
+                    <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
@@ -120,7 +120,7 @@ class FeaturedProducts extends React.Component{
                    </Link>
                 </Col>
                 <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                    <Link className="link" to="/">
+                    <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
@@ -131,7 +131,7 @@ class FeaturedProducts extends React.Component{
                    </Link>
                 </Col>
                 <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                    <Link className="link" to="/">
+                    <Link className="link" to="/product_details">
                          <Card className="card w-100 image-box">
                         <img src="../../../images/product1.jpg" />
                         <Card.Body>
