@@ -1,11 +1,18 @@
 import React, {Component,Fragment} from 'react';
-import {Container,Row,Col} from "react-bootstrap";
+import {Container, Row, Col, Card, Breadcrumb} from 'react-bootstrap'
+import {Link} from 'react-router-dom';
 
 class ProductDetails extends Component {
     render() {
         return (
             <Fragment>
                 <Container  className="BetweenTwoSection">
+                    <Row className="p-2">
+                        <Breadcrumb className="shadow-sm w-100 bg-white mt-5">
+                          <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
+                          <Breadcrumb.Item><Link to="/product_details">Details</Link></Breadcrumb.Item>
+                        </Breadcrumb>
+                    </Row>
                     <Row className="p-2">
                         <Col className="shadow-sm bg-white pb-3 mt-4" md={12} lg={12} sm={12} xs={12}>
                             <Row>

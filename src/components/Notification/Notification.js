@@ -1,5 +1,7 @@
 import React, {Component,Fragment} from 'react';
-import {Card,Modal,Button,Container,Row,Col} from "react-bootstrap";
+import {Card,Modal,Button,Container,Row,Col,Breadcrumb} from "react-bootstrap";
+import {Link} from 'react-router-dom';
+
 class Notification extends Component {
 
 
@@ -21,6 +23,12 @@ class Notification extends Component {
         return (
                 <Fragment>
                     <Container className="TopSection">
+                        <Row>
+                            <Breadcrumb className=" shadow-sm w-100 bg-white mt-3">
+                              <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
+                              <Breadcrumb.Item><Link to="/notification">Notification</Link></Breadcrumb.Item>
+                            </Breadcrumb>
+                        </Row>
                         <Row>
                             <Col className=" p-1 " md={6} lg={6} sm={12} xs={12}>
                                 <Card onClick={this.handleShow} className="notification-card">

@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Route} from 'react-router-dom';
 import { AnimatedSwitch } from 'react-router-transition';
-import Home from '../pages/Home';
+import HomePage from '../pages/HomePage';
 import UserOnboardPage from '../pages/UserOnboardPage';
 import ContactPage from '../pages/ContactPage';
 import ProductDetailsPage from '../pages/ProductDetailsPage';
@@ -11,6 +11,7 @@ import PurchasePage from '../pages/PurchasePage';
 import AboutPage from '../pages/AboutPage';
 import NotificationPage from '../pages/NotificationPage';
 import FavouritePage from '../pages/FavouritePage';
+import CartPage from '../pages/CartPage';
 
 class Routes extends React.Component{
  render() {
@@ -22,16 +23,17 @@ class Routes extends React.Component{
               atActive={{ opacity: 1 }}
               className="switch-wrapper"
             >
-                <Route exact path="/" component={Home} />
-                <Route exact path="/onboard" component={UserOnboardPage} />
-                <Route exact path="/product_details" component={ProductDetailsPage} />
-                <Route exact path="/contact" component={ContactPage} />
-                <Route exact path="/refund" component={RefundPage} />
-                <Route exact path="/policy" component={PolicyPage} />
-                <Route exact path="/purchase" component={PurchasePage} />
-                <Route exact path="/about" component={AboutPage} />
-                <Route exact path="/notification" component={NotificationPage} />
-                <Route exact path="/favourite" component={FavouritePage} />
+                <Route exact path="/" render={(props)=> <HomePage {...props} key={ Date.now() } />} />
+                <Route exact path="/onboard" render={(props)=> <UserOnboardPage {...props} key={ Date.now() } />} />
+                <Route exact path="/product_details" render={(props)=> <ProductDetailsPage {...props} key={ Date.now() } />} />
+                <Route exact path="/contact" render={(props)=> <ContactPage {...props} key={ Date.now() } />} />
+                <Route exact path="/refund" render={(props)=> <RefundPage {...props} key={ Date.now() } />} />
+                <Route exact path="/policy" render={(props)=> <PolicyPage {...props} key={ Date.now() } />} />
+                <Route exact path="/purchase" render={(props)=> <PurchasePage {...props} key={ Date.now() } />} />
+                <Route exact path="/about" render={(props)=> <AboutPage {...props} key={ Date.now() } />} />
+                <Route exact path="/notification" render={(props)=> <NotificationPage {...props} key={ Date.now() } />} />
+                <Route exact path="/favourite" render={(props)=> <FavouritePage {...props} key={ Date.now() } />} />
+                <Route exact path="/cart" render={(props)=> <CartPage {...props} key={ Date.now() } />} />
             </AnimatedSwitch>
         </Fragment>
     );

@@ -1,11 +1,18 @@
 import React, {Component, Fragment} from 'react';
-import {Container, Row, Col, Button, Form} from 'react-bootstrap'
+import {Container, Row, Col, Button, Form, Breadcrumb} from 'react-bootstrap'
+import {Link} from 'react-router-dom';
 
 class Contact extends React.Component{
     render(){
         return (
             <Fragment>
                 <Container className="TopSection">
+                   <Row>
+                        <Breadcrumb className=" shadow-sm w-100 bg-white mt-3">
+                          <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
+                          <Breadcrumb.Item><Link to="/contact">Contact</Link></Breadcrumb.Item>
+                        </Breadcrumb>
+                    </Row>
                     <Row className="p-2">
                         <Col className="shadow-sm bg-white mt-2" md={12} lg={12} sm={12} xs={12}>
                             <Row className="text-center ">

@@ -55,16 +55,12 @@
 .accordionMenuDiv::-webkit-scrollbar-thumb {
     background: #dedede !important;
 }
-
 .accordionMenuDiv::-webkit-scrollbar-thumb:hover {
     background: #808080 !important;
 }
-
 .accordionMenuDiv::-webkit-scrollbar-track {
     background: #F4F4F4!important;
 }
-
-
 .accordionMenuDivInside{
     direction:ltr;
 }

@@ -1,4 +1,6 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap");
+@import "variables.css";
 @import "bigSlider.css";
 @import "button.css";
 @import "common.css";
@@ -20,5 +22,7 @@
 @import "ProductDetails.css";
 @import "cart.css";
 
-
+@import "breadcrumb.css";
 @import "responsive.css";
+@import "toast.css";
+@import "search.css";
