@@ -1,8 +1,78 @@
 import React, {Component, Fragment} from 'react';
 import {Container, Row, Col, Button, Form, Breadcrumb} from 'react-bootstrap'
 import {Link} from 'react-router-dom';
+import Axios from 'axios';
+import validation from '../../validation/validation';
+import ApiURL from '../../api/ApiURL';
+import cogoToast from 'cogo-toast';
 
 class Contact extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            name : '',
+            mobile : '',
+            message : '',
+            sendBtn : 'SEND',
+        }
+    }
+    onSendContactDetails=(event)=>{
+        event.preventDefault();
+        let name = this.state.name;
+        let mobile = this.state.mobile;
+        let message = this.state.message;
+        let contactForm = document.getElementById('contactForm');
+        
+        if(name.length==0)
+        {
+            cogoToast.error('Name is Required');
+        }
+
+        else if(!validation.NameRegx.test(name))
+        {
+            cogoToast.error('Name is Invalid');
+        }
+
+        else if(mobile.length==0)
+        {
+            cogoToast.error('Mobile Number is Required');
+        } 
+
+        else if(!validation.MobileRegx.test(mobile))
+        {
+            cogoToast.error('Mobile Number is Invalid');
+        }
+
+        else if(message.length==0)
+        {
+            cogoToast.error('Message is Required');
+        }  
+        else {
+
+            this.setState({sendBtn: 'SENDING...'})
+            let contactData = new FormData();
+            contactData.append('name', name);
+            contactData.append('mobile', mobile);
+            contactData.append('message', message);
+
+            Axios.post(ApiURL.SendContactDetails, contactData)
+            .then(response=>{
+                if(response.status==200 && response.data==1)
+                {
+                    cogoToast.success("Message has been sent");
+                    contactForm.reset();
+                    this.setState({sendBtn: 'SEND'})
+                }
+            })
+            .catch(error=>{
+                cogoToast.error("Something Went Wrong!");
+                this.setState({sendBtn: 'SEND'})
+            })
+        }
+
+
+        
+    }
     render(){
         return (
             <Fragment>
@@ -17,13 +87,13 @@ class Contact extends React.Component{
                         <Col className="shadow-sm bg-white mt-2" md={12} lg={12} sm={12} xs={12}>
                             <Row className="text-center ">
                                 <Col className="d-flex justify-content-center" md={6} lg={6} sm={12} xs={12}>
-                                    <Form className=" onboardForm">
+                                    <Form id="contactForm" onSubmit={this.onSendContactDetails} className=" onboardForm">
                                         <h4 className="section-title">CONTACT WITH US</h4>
                                         <h6 className="section-sub-title">Please Enter Your Mobile No, And Go Next</h6>
-                                        <input className="form-control m-2" type="text" placeholder="Your Name"/>
-                                        <input className="form-control m-2" type="text" placeholder="Mobile Number"/>
-                                        <input className="form-control m-2" type="text" placeholder="Message"/>
-                                        <Button className="btn btn-block m-2 site-btn">SEND</Button>
+                                        <input name="name" onChange={(event)=> this.setState({name: event.target.value})} className="form-control m-2" type="text" placeholder="Your Name"/>
+                                        <input name="mobile" onChange={(event)=> this.setState({mobile: event.target.value})} className="form-control m-2" type="text" placeholder="Mobile Number"/>
+                                        <input name="message" onChange={(event)=> this.setState({message: event.target.value})} className="form-control m-2" type="text" placeholder="Message"/>
+                                        <Button type="submit" className="btn btn-block m-2 site-btn">{this.state.sendBtn}</Button>
                                     </Form>
                                 </Col>
                                 <Col className="p-0 Desktop m-0" md={6} lg={6} sm={6} xs={6}>
