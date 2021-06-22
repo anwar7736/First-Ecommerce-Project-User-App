@@ -3,6 +3,8 @@ import {Button, Col, Container, Navbar, Row} from "react-bootstrap";
 import MegaMenu from "../home/MegaMenu";
 import MegaMenuMobile from "../home/MegaMenuMobile";
 import {Link} from "react-router-dom";
+import Axios from 'axios';
+import ApiURL from '../../api/ApiURL';
 
 class NavMenuMobile extends Component {
 
@@ -10,10 +12,20 @@ class NavMenuMobile extends Component {
         super();
         this.state={
             SideNavState:"sideNavClose",
-            ContentOverState:"ContentOverlayClose"
+            ContentOverState:"ContentOverlayClose",
+            menuData : [],
         }
     }
 
+    componentDidMount(){
+        Axios.get(ApiURL.GetCategoryDetails)
+        .then(response=>{
+            this.setState({menuData : response.data});
+        })
+        .catch(error=>{
+
+        })
+    }
 
     MenuBarClickHandler=()=>{
         this.SideNavOpenClose();
@@ -52,7 +64,7 @@ class NavMenuMobile extends Component {
                 <div  className={this.state.SideNavState}>
                     <Link to="/" className="btn"> <img className="nav-logo" src="../../images/logo.png"/></Link>
                     <hr/>
-                    <MegaMenuMobile/>
+                    <MegaMenuMobile data={this.state.menuData}/>
                 </div>
 
                 <div onClick={this.ContentOverlayClickHandler}  className={this.state.ContentOverState}>

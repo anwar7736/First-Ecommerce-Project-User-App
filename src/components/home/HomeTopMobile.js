@@ -2,6 +2,8 @@ import React, {Component,Fragment} from 'react';
 import {Container,Row,Col} from "react-bootstrap";
 import MegaMenu from "./MegaMenu";
 import SliderHome from "./SliderHome";
+import Axios from 'axios';
+import ApiURL from '../../api/ApiURL';
 
 class HomeTopMobile extends Component {
     render() {

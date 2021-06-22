@@ -3,5 +3,6 @@ class ApiURL{
 	static VisitorDetails = this.baseURL + "GetVisitorDetails";
 	static SendContactDetails = this.baseURL + "SendContactDetails";
 	static GetSiteInfo = this.baseURL + "GetSiteInfo";
+	static GetCategoryDetails = this.baseURL + "GetCategoryInfo";
 }
 export default ApiURL;
