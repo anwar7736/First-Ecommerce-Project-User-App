@@ -4,5 +4,17 @@ class ApiURL{
 	static SendContactDetails = this.baseURL + "SendContactDetails";
 	static GetSiteInfo = this.baseURL + "GetSiteInfo";
 	static GetCategoryDetails = this.baseURL + "GetCategoryInfo";
+
+	static ProductListByRemark(remark){
+		return this.baseURL+"ProductListByRemark/"+remark;
+	}
+
+	static ProductListByCategory(category){
+		return this.baseURL+"ProductListByCategory/"+category;
+	}
+
+	static ProductListBySubcategory(category, subcategory){
+		return this.baseURL+"ProductListBySubcategory/"+category+"/"+subcategory;
+	}
 }
 export default ApiURL;

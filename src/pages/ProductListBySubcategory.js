@@ -2,39 +2,43 @@ import React, {Component, Fragment} from 'react';
 import {Link} from 'react-router-dom';
 import NavMenuMobile from '../components/common/NavMenuMobile';
 import NavMenuDesktop from '../components/common/NavMenuDesktop';
-import HomeTop from '../components/home/HomeTop';
-import HomeTopMobile from '../components/home/HomeTopMobile';
-import FeaturedProducts from '../components/home/FeaturedProducts';
-import Categories from '../components/home/Categories';
-import Collection from '../components/home/Collection';
-import NewArrival from '../components/home/NewArrival';
+import ListBySubcategory from '../components/ProductDetails/ListBySubcategory';
 import FooterDesktop from '../components/common/FooterDesktop';
 import FooterMobile from '../components/common/FooterMobile';
 import Axios from 'axios';
 import ApiURL from '../api/ApiURL';
 
-class HomePage extends React.Component{
+class ProductListBySubcategory extends React.Component{
+    constructor({match}){
+        super();
+        this.state = {
+            category : match.params.category,
+            subcategory : match.params.subcategory,
+            ProductData : [],
+        }
+    }
     componentDidMount() {
-        window.scroll(0,0);
-        Axios.get(ApiURL.VisitorDetails).then().catch();
+         window.scroll(0,0);
+         Axios.get(ApiURL.ProductListBySubcategory(this.state.category, this.state.subcategory))
+        .then(response=>{
+            this.setState({ProductData : response.data});
+        })
+        .catch(error=>{
+
+        })
     }
  render() {
     return (
         <Fragment>
             <div className="Mobile">
                 <NavMenuMobile/>
-                <HomeTopMobile/>
             </div>
             <div className="Desktop">
                 <NavMenuDesktop/>
-                <HomeTop/>
             </div>
-
-            <FeaturedProducts/>
-            <Collection/>
-            <NewArrival/>
-            <Categories/>
-
+           <div>
+                <ListBySubcategory category={this.state.category} subcategory={this.state.subcategory} ProductData={this.state.ProductData} />
+           </div>
             <div className="Desktop">
                 <FooterDesktop/>
             </div>
@@ -46,4 +50,4 @@ class HomePage extends React.Component{
   }
 }
 
-export default HomePage;
+export default ProductListBySubcategory;

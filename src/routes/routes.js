@@ -12,6 +12,8 @@ import AboutPage from '../pages/AboutPage';
 import NotificationPage from '../pages/NotificationPage';
 import FavouritePage from '../pages/FavouritePage';
 import CartPage from '../pages/CartPage';
+import ProductListByCategory from '../pages/ProductListByCategory';
+import ProductListBySubcategory from '../pages/ProductListBySubcategory';
 
 class Routes extends React.Component{
  render() {
@@ -34,6 +36,8 @@ class Routes extends React.Component{
                 <Route exact path="/notification" render={(props)=> <NotificationPage {...props} key={ Date.now() } />} />
                 <Route exact path="/favourite" render={(props)=> <FavouritePage {...props} key={ Date.now() } />} />
                 <Route exact path="/cart" render={(props)=> <CartPage {...props} key={ Date.now() } />} />
+                <Route exact path="/ProductListByCategory/:category" render={(props)=> <ProductListByCategory {...props} key={ Date.now() } />} />
+                <Route exact path="/ProductListBySubcategory/:category/:subcategory" render={(props)=> <ProductListBySubcategory {...props} key={ Date.now() } />} />
             </AnimatedSwitch>
         </Fragment>
     );

@@ -2,8 +2,27 @@ import React, {Component, Fragment} from 'react';
 import {Container, Row, Col, Card} from 'react-bootstrap';
 import Slider from "react-slick";
 import {Link} from 'react-router-dom';
+import Axios from 'axios';
+import ApiURL from '../../api/ApiURL';
 
 class NewArrival extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            ProductData : [],
+        }
+    }
+
+    componentDidMount(){
+        Axios.get(ApiURL.ProductListByRemark("NEW"))
+        .then(response=>{
+            this.setState({ProductData : response.data});
+        })
+        .catch(error=>{
+
+        })
+    }
+
     next=()=>{
         this.slider.slickNext();
     }
@@ -11,6 +30,40 @@ class NewArrival extends React.Component{
         this.slider.slickPrev();
     }
  render() {
+    let MyList = this.state.ProductData;
+    let MyView = MyList.map((ProductList, i)=>{
+        if(ProductList.special_price=="NA")
+        {
+            return <Fragment>
+                    <Col className="p-1" key={1}>
+                   <Link className="link" to="/product_details">
+                         <Card className="card w-100 image-box">
+                        <img src={ProductList.image} />
+                        <Card.Body>
+                            <h5 className="product-name-on-card">{ProductList.name}</h5>
+                            <p className="product-price-on-card">Price: {ProductList.price}TK</p>
+                        </Card.Body>
+                    </Card>
+                   </Link>
+                </Col>
+              </Fragment>
+        }
+        else{
+            return <Fragment>
+                    <Col className="p-1" key={1}>
+                   <Link className="link" to="/product_details">
+                         <Card className="card w-100 image-box">
+                        <img src={ProductList.image} />
+                        <Card.Body>
+                            <h5 className="product-name-on-card">{ProductList.name}</h5>
+                            <p className="product-price-on-card">Price: <strike className="text-muted">{ProductList.price}</strike> {ProductList.special_price}TK</p>
+                        </Card.Body>
+                    </Card>
+                   </Link>
+                </Col>
+              </Fragment>
+        }
+    })
     const settings = {
             dots: false,
             infinite: true,
@@ -59,72 +112,7 @@ class NewArrival extends React.Component{
                 </h4>
                 <h6 className="section-sub-title pb-3">Some Of Our Exclusive Collection, You May Like</h6>
                     <Slider  ref={c=>(this.slider=c)}   {...settings}>
-                        <div className="p-1">
-                            <Link className="link" to="/product_details">
-                                <Card className="card w-100  image-box ">
-                                <img src="../../../images/p2.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                </Card.Body>
-                            </Card>
-                            </Link>
-                        </div>
-                        <div className="p-1">
-                            <Link className="link" to="/product_details">
-                                <Card className="card w-100  image-box ">
-                                <img src="../../../images/p2.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                </Card.Body>
-                            </Card>
-                            </Link>
-                        </div>
-                        <div className="p-1">
-                            <Link className="link" to="/product_details">
-                                <Card className="card w-100  image-box ">
-                                <img src="../../../images/p2.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                </Card.Body>
-                            </Card>
-                            </Link>
-                        </div>
-                        <div className="p-1">
-                            <Link className="link" to="/product_details">
-                                <Card className="card w-100  image-box ">
-                                <img src="../../../images/p2.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                </Card.Body>
-                            </Card>
-                            </Link>
-                        </div>
-                        <div className="p-1">
-                            <Link className="link" to="/product_details">
-                                <Card className="card w-100  image-box ">
-                                <img src="../../../images/p2.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                </Card.Body>
-                            </Card>
-                            </Link>
-                        </div>
-                        <div className="p-1">
-                            <Link className="link" to="/product_details">
-                                <Card className="card w-100  image-box ">
-                                <img src="../../../images/p2.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                </Card.Body>
-                            </Card>
-                            </Link>
-                        </div>
+                        {MyView}
                     </Slider>
 
 

@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {Container, Row, Col, Card} from 'react-bootstrap';
 import Axios from 'axios';
 import ApiURL from '../../api/ApiURL';
+import {Link} from 'react-router-dom';
 
 class Categories extends React.Component{
     constructor(){
@@ -24,13 +25,15 @@ class Categories extends React.Component{
     let MyList = this.state.categories;
     let MyView = MyList.map((List, i)=>{
         return <Fragment key={i.toString()}>
-                    <Col className="p-0" key={1} xl={2} lg={2} md={2} sm={6} xs={6} >
-                                <Card className="h-100 w-100 text-center">
+                    <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={6} xs={6} >
+                                <Link to={"/ProductListByCategory/"+List.category} className="link">
+                                    <Card className="h-100 w-100 text-center">
                                     <Card.Body>
                                         <img className="w-75 mb-3" src={List.image}/>
                                         <h5 className="category-name">{List.category}</h5>
                                     </Card.Body>
                                 </Card>
+                                </Link>
                     </Col>
                 </Fragment>
     })
