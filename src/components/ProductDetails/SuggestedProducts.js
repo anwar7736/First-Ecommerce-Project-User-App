@@ -10,7 +10,7 @@ class SuggestedProducts extends Component {
                     <h6 className="section-sub-title pb-3">Some Of Our Exclusive Collection, You May Like</h6>
                     <Row>
                         <Col className="p-1" key={1} xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Link className="link" to="/product_details">
+                            <Link className="link" to={"/product_details/"}>
                                 <Card className="card w-100 image-box ">
                                     <img src="Images/product2.jpg"/>
                                     <Card.Body>
@@ -21,7 +21,7 @@ class SuggestedProducts extends Component {
                             </Link>
                         </Col>
                         <Col className="p-1" key={1} xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Link className="link" to="/product_details">
+                            <Link className="link" to={"/product_details/"}>
                                 <Card className="card w-100 image-box ">
                                     <img src="Images/product2.jpg"/>
                                     <Card.Body>
@@ -32,7 +32,7 @@ class SuggestedProducts extends Component {
                             </Link>
                         </Col>
                         <Col className="p-1" key={1} xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Link className="link" to="/product_details">
+                            <Link className="link" to={"/product_details/"}>
                                 <Card className="card  w-100  image-box ">
                                     <img src="Images/product1.jpg"/>
                                     <Card.Body>
@@ -43,7 +43,7 @@ class SuggestedProducts extends Component {
                             </Link>
                         </Col>
                         <Col className="p-1" key={1} xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Link className="link" to="/product_details">
+                            <Link className="link" to={"/product_details/"}>
                                 <Card className="card  w-100  image-box ">
                                     <img src="Images/product1.jpg"/>
                                     <Card.Body>
@@ -54,7 +54,7 @@ class SuggestedProducts extends Component {
                             </Link>
                         </Col>
                         <Col className="p-1" key={1} xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Link className="link" to="/product_details">
+                            <Link className="link" to={"/product_details/"}>
                                 <Card className="card  w-100  image-box ">
                                     <img src="Images/product1.jpg"/>
                                     <Card.Body>
@@ -65,7 +65,7 @@ class SuggestedProducts extends Component {
                             </Link>
                         </Col>
                         <Col className="p-1" key={1} xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Link className="link" to="/product_details">
+                            <Link className="link" to={"/product_details/"}>
                                 <Card className="card  w-100  image-box ">
                                     <img src="Images/product1.jpg"/>
                                     <Card.Body>
@@ -76,7 +76,7 @@ class SuggestedProducts extends Component {
                             </Link>
                         </Col>
                         <Col className="p-1" key={1} xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Link className="link" to="/product_details">
+                            <Link className="link" to={"/product_details/"}>
                                 <Card className="card  w-100  image-box ">
                                     <img src="Images/product1.jpg"/>
                                     <Card.Body>
@@ -87,7 +87,7 @@ class SuggestedProducts extends Component {
                             </Link>
                         </Col>
                         <Col className="p-1" key={1} xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Link className="link" to="/product_details">
+                            <Link className="link" to={"/product_details/"}>
                                 <Card className="card w-100 image-box ">
                                     <img src="Images/product2.jpg"/>
                                     <Card.Body>

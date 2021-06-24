@@ -10,7 +10,7 @@ class ListBySubcategory extends Component {
             {
                 return <Fragment>
                         <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                       <Link className="link" to="/product_details">
+                       <Link className="link" to={"/product_details/"+ProductList.code}>
                              <Card className="card w-100 image-box">
                             <img src={ProductList.image} />
                             <Card.Body>
@@ -26,7 +26,7 @@ class ListBySubcategory extends Component {
             else{
                 return <Fragment>
                         <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                       <Link className="link" to="/product_details">
+                       <Link className="link" to={"/product_details/"+ProductList.code}>
                              <Card className="card w-100 image-box">
                             <img src={ProductList.image} />
                             <Card.Body>

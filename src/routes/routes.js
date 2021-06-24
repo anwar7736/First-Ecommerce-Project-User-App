@@ -27,7 +27,7 @@ class Routes extends React.Component{
             >
                 <Route exact path="/" render={(props)=> <HomePage {...props} key={ Date.now() } />} />
                 <Route exact path="/onboard" render={(props)=> <UserOnboardPage {...props} key={ Date.now() } />} />
-                <Route exact path="/product_details" render={(props)=> <ProductDetailsPage {...props} key={ Date.now() } />} />
+                <Route exact path="/product_details/:product_code" render={(props)=> <ProductDetailsPage {...props} key={ Date.now() } />} />
                 <Route exact path="/contact" render={(props)=> <ContactPage {...props} key={ Date.now() } />} />
                 <Route exact path="/refund" render={(props)=> <RefundPage {...props} key={ Date.now() } />} />
                 <Route exact path="/policy" render={(props)=> <PolicyPage {...props} key={ Date.now() } />} />

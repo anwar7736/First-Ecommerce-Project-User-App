@@ -3,18 +3,21 @@ import {Container, Row, Col, Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import Axios from 'axios';
 import ApiURL from '../../api/ApiURL';
+import FeaturedProductLoader from '../placeholder/FeaturedProductLoader'
 
 class FeaturedProducts extends React.Component{
     constructor(){
         super();
         this.state = {
             ProductData : [],
+            isLoading : '',
+            mainDiv : 'd-none',
         }
     }
     componentDidMount(){
         Axios.get(ApiURL.ProductListByRemark("TOP"))
         .then(response=>{
-            this.setState({ProductData : response.data});
+            this.setState({ProductData : response.data, isLoading:'d-none', mainDiv:''});
         })
         .catch(error=>{
 
@@ -27,7 +30,7 @@ class FeaturedProducts extends React.Component{
         {
             return <Fragment>
                     <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                   <Link className="link" to="/product_details">
+                   <Link className="link" to={"/product_details/"+ProductList.code}>
                          <Card className="card w-100 image-box">
                         <img src={ProductList.image} />
                         <Card.Body>
@@ -42,7 +45,7 @@ class FeaturedProducts extends React.Component{
         else{
             return <Fragment>
                     <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                   <Link className="link" to="/product_details">
+                   <Link className="link" to={"/product_details/"+ProductList.code}>
                          <Card className="card w-100 image-box">
                         <img src={ProductList.image} />
                         <Card.Body>
@@ -57,13 +60,18 @@ class FeaturedProducts extends React.Component{
     })
     return (
         <Fragment>
-           <Container className="text-center BetweenTwoSection" fluid={true}>
-              <h4 className="section-title">FEATURED PRODUCTS</h4>
-              <h6 className="section-sub-title pb-3">Some Of Our Exclusive Collection, You May Like</h6>
-              <Row>
-                {MyView}
-              </Row>
-           </Container>
+            <div className={this.state.isLoading}>
+                <FeaturedProductLoader/>
+            </div>
+           <div className={this.state.mainDiv}>
+                <Container className="text-center BetweenTwoSection" fluid={true}>
+                  <h4 className="section-title">FEATURED PRODUCTS</h4>
+                  <h6 className="section-sub-title pb-3">Some Of Our Exclusive Collection, You May Like</h6>
+                  <Row>
+                    {MyView}
+                  </Row>
+               </Container>
+           </div>
         </Fragment>
     );
   }

@@ -3,19 +3,22 @@ import {Container, Row, Col, Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import Axios from 'axios';
 import ApiURL from '../../api/ApiURL';
+import SpecialCollectionPlaceholder from '../placeholder/SpecialCollectionPlaceholder'
 
 class Collection extends React.Component{
      constructor(){
         super();
         this.state = {
             ProductData : [],
+            isLoading : '',
+            mainDiv : 'd-none',
         }
     }
 
     componentDidMount(){
         Axios.get(ApiURL.ProductListByRemark("COLLECTION"))
         .then(response=>{
-            this.setState({ProductData : response.data});
+            this.setState({ProductData : response.data, isLoading:'d-none', mainDiv:''});
         })
         .catch(error=>{
 
@@ -28,7 +31,7 @@ class Collection extends React.Component{
         {
             return <Fragment>
                     <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                   <Link className="link" to="/product_details">
+                   <Link className="link" to={"/product_details/"+ProductList.code}>
                          <Card className="card w-100 image-box">
                         <img src={ProductList.image} />
                         <Card.Body>
@@ -43,7 +46,7 @@ class Collection extends React.Component{
         else{
             return <Fragment>
                     <Col className="p-1" key={1} xl={2} lg={2} md={2} sm={4} xs={6}>
-                   <Link className="link" to="/product_details">
+                   <Link className="link" to={"/product_details/"+ProductList.code}>
                          <Card className="card w-100 image-box">
                         <img src={ProductList.image} />
                         <Card.Body>
@@ -58,13 +61,18 @@ class Collection extends React.Component{
     })
     return (
         <Fragment>
-            <Container className="text-center bg-white card-body shadow-sm py-5 BetweenTwoSection" fluid={true}>
-                <h4 className="section-title ">SPECIAL COLLECTION</h4>
-                <h6 className="section-sub-title pb-3">Some Of Our Exclusive Collection, You May Like</h6>
-                <Row>
-                    {MyView}
-                </Row>
-            </Container>
+            <div className={this.state.isLoading}>
+                <SpecialCollectionPlaceholder/>
+            </div>
+            <div className={this.state.mainDiv}>
+                <Container className="text-center bg-white card-body shadow-sm py-5 BetweenTwoSection" fluid={true}>
+                    <h4 className="section-title ">SPECIAL COLLECTION</h4>
+                    <h6 className="section-sub-title pb-3">Some Of Our Exclusive Collection, You May Like</h6>
+                    <Row>
+                        {MyView}
+                    </Row>
+                </Container>
+            </div>
         </Fragment>
     );
   }

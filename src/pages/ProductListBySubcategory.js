@@ -7,6 +7,7 @@ import FooterDesktop from '../components/common/FooterDesktop';
 import FooterMobile from '../components/common/FooterMobile';
 import Axios from 'axios';
 import ApiURL from '../api/ApiURL';
+import ProductListLoader from '../components/placeholder/ProductListLoader'
 
 class ProductListBySubcategory extends React.Component{
     constructor({match}){
@@ -15,13 +16,15 @@ class ProductListBySubcategory extends React.Component{
             category : match.params.category,
             subcategory : match.params.subcategory,
             ProductData : [],
+            isLoading : '',
+            mainDiv : 'd-none',
         }
     }
     componentDidMount() {
          window.scroll(0,0);
          Axios.get(ApiURL.ProductListBySubcategory(this.state.category, this.state.subcategory))
         .then(response=>{
-            this.setState({ProductData : response.data});
+            this.setState({ProductData : response.data, isLoading:'d-none', mainDiv:''});
         })
         .catch(error=>{
 
@@ -36,7 +39,12 @@ class ProductListBySubcategory extends React.Component{
             <div className="Desktop">
                 <NavMenuDesktop/>
             </div>
-           <div>
+
+            <div className={this.state.isLoading}>
+                <ProductListLoader/>
+            </div>
+            
+           <div className={this.state.mainDiv}>
                 <ListBySubcategory category={this.state.category} subcategory={this.state.subcategory} ProductData={this.state.ProductData} />
            </div>
             <div className="Desktop">

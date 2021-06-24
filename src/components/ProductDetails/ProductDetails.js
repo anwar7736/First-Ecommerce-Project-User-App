@@ -1,9 +1,104 @@
 import React, {Component,Fragment} from 'react';
 import {Container, Row, Col, Card, Breadcrumb} from 'react-bootstrap'
 import {Link} from 'react-router-dom';
+import ReactHtmlParser from 'react-html-parser';
+import 'react-inner-image-zoom/lib/InnerImageZoom/styles.css';
+import InnerImageZoom from 'react-inner-image-zoom';
 
 class ProductDetails extends Component {
+    constructor(){
+        super();
+        this.state = {
+            previewImg : null,
+        }
+    }
+    previewImg=(event)=>{
+        let selectedImg = event.target.src;
+        this.setState({previewImg: selectedImg})
+    }
     render() {
+        let MyList = this.props.details;
+        let product_name = MyList[0]['name'];
+        let  short_dec= MyList[0]['des'];
+        let  desc=  MyList[0]['details'];
+        let  img1=  MyList[0]['img1'];
+        let  img2=  MyList[0]['img2'];
+        let  img3=  MyList[0]['img3'];
+        let  img4=  MyList[0]['img4'];
+        let  color=   MyList[0]['color'];
+        let  size=  MyList[0]['size'];
+        let  price= MyList[0]['price'];
+        let  special_price= MyList[0]['special_price'];
+        let colorDiv;
+        let sizeDiv;
+
+        if(color!=='NA')
+        {
+            let colour = color.split(',');
+            var colorList = colour.map((c,i)=>{
+                return <option>{c}</option>
+                    
+                        colorDiv = '';
+            })
+        }
+
+        else {
+            colorDiv = 'd-none';
+        }
+
+        if(size!=='NA')
+        {
+            let SizeData= size.split(',');
+            var sizeList = SizeData.map((s,i)=>{
+                return <option>{s}</option>
+                    
+                        sizeDiv = '';
+            })
+        }
+        else {
+            sizeDiv = 'd-none';
+        }
+
+        let previewImage;
+
+        if(this.state.previewImg==null)
+        {
+            previewImage =  <InnerImageZoom 
+            className="w-100" 
+            src={img1}
+            zoomSrc={img1} 
+            zoomType="hover"
+            zoomScale = "1.5"
+            />
+        }
+
+        else{
+            previewImage =  <InnerImageZoom 
+            className="w-100" 
+            src={this.state.previewImg}
+            zoomSrc={this.state.previewImg}
+            zoomType="hover"
+            zoomScale = "1.5"
+            />
+        }
+
+        function PriceList(price, special_price)
+        {
+            if(special_price!=='NA')
+            {
+                return  <div className="Product-price-card d-inline">
+                            Price : <strike className="text-muted">{price}</strike> <span className="text-success"><b>{special_price} TK</b></span> 
+                        </div>
+            }
+
+            else
+            {
+                return  <div className="Product-price-card d-inline">
+                            <span className="text-success"><b>Price :</b></span> <span className="text-danger">{price} TK</span> 
+                        </div>
+            }
+        }
+
         return (
             <Fragment>
                 <Container  className="BetweenTwoSection">
@@ -17,66 +112,55 @@ class ProductDetails extends Component {
                         <Col className="shadow-sm bg-white pb-3 mt-4" md={12} lg={12} sm={12} xs={12}>
                             <Row>
                                 <Col className="p-3" md={6} lg={6} sm={12} xs={12}>
-                                    <img className="w-100" src="Images/p2.jpg"/>
+                                   {previewImage}
                                     <Container  className="my-3">
                                         <Row>
                                             <Col className="p-0 m-0"  md={3} lg={3} sm={3} xs={3}>
-                                                <img className="w-100" src="Images/p1.jpg"/>
+                                                <img onClick={this.previewImg} className=" clickImg w-100" src={img1}/>
                                             </Col>
                                             <Col className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                                                <img className="w-100" src="Images/p2.jpg"/>
+                                                <img onClick={this.previewImg} className=" clickImg w-100" src={img2}/>
                                             </Col>
                                             <Col className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                                                <img className="w-100" src="Images/p1.jpg"/>
+                                                <img onClick={this.previewImg} className=" clickImg w-100" src={img1}/>
                                             </Col>
                                             <Col className="p-0 m-0" md={3} lg={3} sm={3} xs={3}>
-                                                <img className="w-100" src="Images/p2.jpg"/>
+                                                <img onClick={this.previewImg} className=" clickImg w-100" src={img2}/>
                                             </Col>
                                         </Row>
                                     </Container>
                                 </Col>
                                 <Col className="p-3 " md={6} lg={6} sm={12} xs={12}>
-                                    <h5 className="Product-Name">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <h6 className="section-sub-title">Some Of Our Exclusive Collection, You May Like Some Of Our Exclusive Collectio</h6>
+                                    <h5 className="Product-Name">{product_name}</h5>
+                                    <h6 className="section-sub-title">{ReactHtmlParser(short_dec)}</h6>
                                     <div className="input-group">
-                                        <div className="Product-price-card d-inline ">Reguler Price 200</div>
-                                        <div className="Product-price-card d-inline ">50% Discount</div>
-                                        <div className="Product-price-card d-inline ">New Price 100</div>
+                                        {
+                                            PriceList(price, special_price)
+                                        }
                                     </div>
                                     <h6 className="mt-2">Choose Color</h6>
                                     <div className="input-group">
-                                        <div className="form-check mx-1">
-                                            <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" />
-                                            <label className="form-check-label" htmlFor="exampleRadios1">Black</label>
-                                        </div>
-                                        <div className="form-check mx-1">
-                                            <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" />
-                                            <label className="form-check-label" htmlFor="exampleRadios1">Green</label>
-                                        </div>
-                                        <div className="form-check mx-1">
-                                            <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" />
-                                            <label className="form-check-label" htmlFor="exampleRadios1">Red</label>
+                                        <div className={colorDiv}>
+                                            <select>
+                                                    {colorList}
+                                            </select>
                                         </div>
                                     </div>
 
                                     <h6 className="mt-2">Choose Size</h6>
                                     <div className="input-group">
-                                        <div className="form-check mx-1">
-                                            <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" />
-                                            <label className="form-check-label" htmlFor="exampleRadios1">XL</label>
+                                        <div className="">
+                                            <div className={sizeDiv}>
+                                                <select>
+                                                        {sizeList}
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div className="form-check mx-1">
-                                            <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" />
-                                            <label className="form-check-label" htmlFor="exampleRadios1">Large</label>
-                                        </div>
-                                        <div className="form-check mx-1">
-                                            <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" />
-                                            <label className="form-check-label" htmlFor="exampleRadios1">Medium</label>
-                                        </div>
+                                        
                                     </div>
 
                                     <h6 className="mt-2">Quantity</h6>
-                                    <input  className="form-control text-center w-50" type="number" />
+                                    <input  className="form-control text-center w-50" min="1" type="number" />
 
                                     <div className="input-group mt-3">
                                         <button className="btn site-btn m-1 "> <i className="fa fa-shopping-cart"></i>  Add To Cart</button>
@@ -87,10 +171,9 @@ class ProductDetails extends Component {
                             </Row>
 
                             <Row>
-                                <Col className="" md={6} lg={6} sm={12} xs={12}>
+                                <Col className="text-justify" md={6} lg={6} sm={12} xs={12}>
                                     <h6 className="mt-2">DETAILS</h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation</p>
+                                    {ReactHtmlParser(desc)}
                                 </Col>
 
                                 <Col className="" md={6} lg={6} sm={12} xs={12}>

@@ -4,19 +4,22 @@ import Slider from "react-slick";
 import {Link} from 'react-router-dom';
 import Axios from 'axios';
 import ApiURL from '../../api/ApiURL';
+import NewArrivalPlaceholder from '../placeholder/NewArrivalPlaceholder'
 
 class NewArrival extends React.Component{
     constructor(){
         super();
         this.state = {
             ProductData : [],
+            isLoading : '',
+            mainDiv : 'd-none',
         }
     }
 
     componentDidMount(){
         Axios.get(ApiURL.ProductListByRemark("NEW"))
         .then(response=>{
-            this.setState({ProductData : response.data});
+            this.setState({ProductData : response.data, isLoading:'d-none', mainDiv:''});
         })
         .catch(error=>{
 
@@ -36,7 +39,7 @@ class NewArrival extends React.Component{
         {
             return <Fragment>
                     <Col className="p-1" key={1}>
-                   <Link className="link" to="/product_details">
+                   <Link className="link" to={"/product_details/"+ProductList.code}>
                          <Card className="card w-100 image-box">
                         <img src={ProductList.image} />
                         <Card.Body>
@@ -51,7 +54,7 @@ class NewArrival extends React.Component{
         else{
             return <Fragment>
                     <Col className="p-1" key={1}>
-                   <Link className="link" to="/product_details">
+                   <Link className="link" to={"/product_details/"+ProductList.code}>
                          <Card className="card w-100 image-box">
                         <img src={ProductList.image} />
                         <Card.Body>
@@ -101,22 +104,27 @@ class NewArrival extends React.Component{
         };
     return (
         <Fragment>
-             <Container className="text-center BetweenTwoSection" fluid={true}>
-                <h4 className="section-title px-0 mx-0 ">NEW ARRIVAL
-                    <a className="btn btn-sm ml-2 site-btn" onClick={this.previous} >
-                        <i className="fa fa-angle-left"></i>
-                    </a>
-                    <a className="btn btn-sm ml-2 site-btn" onClick={this.next}>
-                        <i className="fa fa-angle-right"></i>
-                    </a>
-                </h4>
-                <h6 className="section-sub-title pb-3">Some Of Our Exclusive Collection, You May Like</h6>
-                    <Slider  ref={c=>(this.slider=c)}   {...settings}>
-                        {MyView}
-                    </Slider>
+            <div className={this.state.isLoading}>
+                <NewArrivalPlaceholder/>
+            </div>
+            <div className={this.state.mainDiv}>
+                 <Container className="text-center BetweenTwoSection" fluid={true}>
+                    <h4 className="section-title px-0 mx-0 ">NEW ARRIVAL
+                        <a className="btn btn-sm ml-2 site-btn" onClick={this.previous} >
+                            <i className="fa fa-angle-left"></i>
+                        </a>
+                        <a className="btn btn-sm ml-2 site-btn" onClick={this.next}>
+                            <i className="fa fa-angle-right"></i>
+                        </a>
+                    </h4>
+                    <h6 className="section-sub-title pb-3">Some Of Our Exclusive Collection, You May Like</h6>
+                        <Slider  ref={c=>(this.slider=c)}   {...settings}>
+                            {MyView}
+                        </Slider>
 
 
-            </Container>
+                </Container>
+            </div>
         </Fragment>
     );
   }
