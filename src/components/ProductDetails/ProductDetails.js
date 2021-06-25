@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.css';
 import InnerImageZoom from 'react-inner-image-zoom';
+import ReviewList from './ReviewList'; 
+import SuggestedProducts from './SuggestedProducts';
 
 class ProductDetails extends Component {
     constructor(){
@@ -18,88 +20,91 @@ class ProductDetails extends Component {
     }
     render() {
         let MyList = this.props.details;
-        let product_name = MyList[0]['name'];
-        let  short_dec= MyList[0]['des'];
-        let  desc=  MyList[0]['details'];
-        let  img1=  MyList[0]['img1'];
-        let  img2=  MyList[0]['img2'];
-        let  img3=  MyList[0]['img3'];
-        let  img4=  MyList[0]['img4'];
-        let  color=   MyList[0]['color'];
-        let  size=  MyList[0]['size'];
-        let  price= MyList[0]['price'];
-        let  special_price= MyList[0]['special_price'];
-        let colorDiv;
-        let sizeDiv;
-
-        if(color!=='NA')
+        if(MyList.length > 0)
         {
-            let colour = color.split(',');
-            var colorList = colour.map((c,i)=>{
-                return <option>{c}</option>
-                    
-                        colorDiv = '';
-            })
-        }
+            let product_name = MyList[0]['name'];
+            let code = MyList[0]['product_code'];
+            let  short_dec= MyList[0]['des'];
+            let  desc=  MyList[0]['details'];
+            let  img1=  MyList[0]['img1'];
+            let  img2=  MyList[0]['img2'];
+            let  img3=  MyList[0]['img3'];
+            let  img4=  MyList[0]['img4'];
+            let  color=   MyList[0]['color'];
+            let  size=  MyList[0]['size'];
+            let  price= MyList[0]['price'];
+            let  subcategory= MyList[0]['subcategory'];
+            let  special_price= MyList[0]['special_price'];
+            let colorDiv;
+            let sizeDiv;
 
-        else {
-            colorDiv = 'd-none';
-        }
-
-        if(size!=='NA')
-        {
-            let SizeData= size.split(',');
-            var sizeList = SizeData.map((s,i)=>{
-                return <option>{s}</option>
-                    
-                        sizeDiv = '';
-            })
-        }
-        else {
-            sizeDiv = 'd-none';
-        }
-
-        let previewImage;
-
-        if(this.state.previewImg==null)
-        {
-            previewImage =  <InnerImageZoom 
-            className="w-100" 
-            src={img1}
-            zoomSrc={img1} 
-            zoomType="hover"
-            zoomScale = "1.5"
-            />
-        }
-
-        else{
-            previewImage =  <InnerImageZoom 
-            className="w-100" 
-            src={this.state.previewImg}
-            zoomSrc={this.state.previewImg}
-            zoomType="hover"
-            zoomScale = "1.5"
-            />
-        }
-
-        function PriceList(price, special_price)
-        {
-            if(special_price!=='NA')
+            if(color!=='NA')
             {
-                return  <div className="Product-price-card d-inline">
-                            Price : <strike className="text-muted">{price}</strike> <span className="text-success"><b>{special_price} TK</b></span> 
-                        </div>
+                let colour = color.split(',');
+                var colorList = colour.map((c,i)=>{
+                    return <option>{c}</option>
+                        
+                            colorDiv = '';
+                })
             }
 
-            else
-            {
-                return  <div className="Product-price-card d-inline">
-                            <span className="text-success"><b>Price :</b></span> <span className="text-danger">{price} TK</span> 
-                        </div>
+            else {
+                colorDiv = 'd-none';
             }
-        }
 
-        return (
+            if(size!=='NA')
+            {
+                let SizeData= size.split(',');
+                var sizeList = SizeData.map((s,i)=>{
+                    return <option>{s}</option>
+                        
+                            sizeDiv = '';
+                })
+            }
+            else {
+                sizeDiv = 'd-none';
+            }
+
+            let previewImage;
+
+            if(this.state.previewImg==null)
+            {
+                previewImage =  <InnerImageZoom 
+                className="w-100" 
+                src={img1}
+                zoomSrc={img1} 
+                zoomType="hover"
+                zoomScale = "1.5"
+                />
+            }
+
+            else{
+                previewImage =  <InnerImageZoom 
+                className="w-100" 
+                src={this.state.previewImg}
+                zoomSrc={this.state.previewImg}
+                zoomType="hover"
+                zoomScale = "1.5"
+                />
+            }
+
+            function PriceList(price, special_price)
+            {
+                if(special_price!=='NA')
+                {
+                    return  <div className="Product-price-card d-inline">
+                                Price : <strike className="text-muted">{price}</strike> <span className="text-success"><b>{special_price} TK</b></span> 
+                            </div>
+                }
+
+                else
+                {
+                    return  <div className="Product-price-card d-inline">
+                                <span className="text-success"><b>Price :</b></span> <span className="text-danger">{price} TK</span> 
+                            </div>
+                }
+            }
+          return (
             <Fragment>
                 <Container  className="BetweenTwoSection">
                     <Row className="p-2">
@@ -175,27 +180,34 @@ class ProductDetails extends Component {
                                     <h6 className="mt-2">DETAILS</h6>
                                     {ReactHtmlParser(desc)}
                                 </Col>
-
-                                <Col className="" md={6} lg={6} sm={12} xs={12}>
-                                    <h6 className="mt-2">REVIEWS</h6>
-                                    <p className=" p-0 m-0"><span className="Review-Title">Rabbil Hasan</span> <span className="text-success"><i className="fa fa-star"></i> <i className="fa fa-star"></i> <i className="fa fa-star"></i> <i className="fa fa-star"></i> </span> </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-
-                                    <p className=" p-0 m-0"><span className="Review-Title">Rabbil Hasan</span> <span className="text-success"><i className="fa fa-star"></i> <i className="fa fa-star"></i> <i className="fa fa-star"></i> <i className="fa fa-star"></i> </span> </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-
-                                    <p className=" p-0 m-0"><span className="Review-Title">Rabbil Hasan</span> <span className="text-success"><i className="fa fa-star"></i> <i className="fa fa-star"></i> <i className="fa fa-star"></i> <i className="fa fa-star"></i> </span> </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-
+                                  <Col className="" md={6} lg={6} sm={12} xs={12}>
+                                    <ReviewList code = {code} />
                                 </Col>
+                                 <SuggestedProducts subcategory={subcategory}/>
                             </Row>
 
                         </Col>
                     </Row>
                 </Container>
-
             </Fragment>
         );
+    }
+    else{
+        return (
+                <Fragment>
+                    <Container className="BetweenTwoSection mt-5">
+                        <Row className="p-2">  
+                            <Col className="text-center mt-5 text-danger">
+                                <h1>No Data Found</h1>
+                                <h5>Please try again!</h5>
+                            </Col>
+                        </Row>
+                    </Container>
+               </Fragment>
+               );
+    }
+
+        
     }
 }
 

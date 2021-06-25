@@ -21,5 +21,13 @@ class ApiURL{
 	static GetProductDetails(product_code){
 		return this.baseURL+"GetProductDetails/"+product_code;
 	}
+
+	static GetReviewList(product_code){
+		return this.baseURL+"GetReviewList/"+product_code;
+	}
+
+	static GetSimilarProducts(subcategory){
+		return this.baseURL+"GetSimilarProducts/"+subcategory;
+	}
 }
 export default ApiURL;
