@@ -2,11 +2,12 @@ import React, {Component, Fragment} from 'react';
 import {Link} from 'react-router-dom';
 import NavMenuMobile from '../components/common/NavMenuMobile';
 import NavMenuDesktop from '../components/common/NavMenuDesktop';
-import UserOnboard from '../components/common/UserOnboard';
+import UserLogin from '../components/common/UserLogin';
 import FooterDesktop from '../components/common/FooterDesktop';
 import FooterMobile from '../components/common/FooterMobile';
+import DescriptionPlaceholder from '../components/placeholder/DescriptionPlaceholder'
 
-class UserOnboardPage extends React.Component{
+class UserLoginPage extends React.Component{
     componentDidMount() {
         window.scroll(0,0)
     }
@@ -20,7 +21,7 @@ class UserOnboardPage extends React.Component{
                 <NavMenuDesktop/>
             </div>
            <div>
-                <UserOnboard/>
+                <UserLogin/>
            </div>
             <div className="Desktop">
                 <FooterDesktop/>
@@ -33,4 +34,4 @@ class UserOnboardPage extends React.Component{
   }
 }
 
-export default UserOnboardPage;
+export default UserLoginPage;

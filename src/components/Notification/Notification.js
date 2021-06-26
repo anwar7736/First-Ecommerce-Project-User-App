@@ -8,18 +8,54 @@ class Notification extends Component {
     constructor() {
         super();
         this.state={
-            show:false,
+            NotificationStatus:false,
+            id : '',
+            title : '',
+            message : '',
+            date : '',
         }
     }
 
     handleClose = () => {
-        this.setState({ show:false})
+        this.setState({ NotificationStatus:false})
     };
-    handleShow = () => {
-        this.setState({ show:true})
+    handleShow = (event) => {
+        this.setState({ 
+            NotificationStatus:true, 
+            id : event.target.getAttribute('data-id'),
+            title : event.target.getAttribute('data-title'),
+            message : event.target.getAttribute('data-message'),
+            date : event.target.getAttribute('data-date'),
+
+        });
+        
     };
 
     render() {
+        let MyList = this.props.NotificationList;
+        let MyView;
+        if(MyList.length > 0){
+             MyView = MyList.map((List, i)=>{
+             return <>
+                    <Col className=" d-flex justify-content-around mt-5 p-1" md={12} lg={12} sm={12} xs={12}>
+                        <div className="float-left w-75">
+                            <h6 className="notification-title"> {List.title}</h6>
+                            <p className="py-1  px-0 notification-date m-0"><i className="fa  fa-bell"/>  {List.date}</p>
+                        </div>
+                        <div className="float-right px-2 w-25">
+                            <button data-id={List.id} data-title={List.title} data-message={List.message} data-date={List.date} onClick={this.handleShow} className="btn btn-sm site-btn">Details</button>
+                        </div>
+                    </Col>
+                    <hr className="bg-light w-100"/>
+                    </>
+        })
+        }
+        else{
+            MyView = <Col className="text-center mt-3 text-danger">
+                        <h3>No Data Found</h3>
+                     </Col>
+        }
+
         return (
                 <Fragment>
                     <Container className="TopSection">
@@ -30,70 +66,19 @@ class Notification extends Component {
                             </Breadcrumb>
                         </Row>
                         <Row>
-                            <Col className=" p-1 " md={6} lg={6} sm={12} xs={12}>
-                                <Card onClick={this.handleShow} className="notification-card">
-                                    <Card.Body>
-                                        <h6> Lorem Ipsum is simply dummy text of the printing</h6>
-                                        <p className="py-1  px-0 text-primary m-0"><i className="fa  fa-bell"></i>   Date: 22/12/2010 | Status: Unread</p>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                            <Col className=" p-1 " md={6} lg={6} sm={12} xs={12}>
-                                <Card onClick={this.handleShow} className="notification-card">
-                                    <Card.Body>
-                                        <h6> Lorem Ipsum is simply dummy text of the printing</h6>
-                                        <p className="py-1   px-0 text-primary m-0"><i className="fa  fa-bell"></i>   Date: 22/12/2010 | Status: Unread</p>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                            <Col className="p-1" md={6} lg={6} sm={12} xs={12}>
-                                <Card onClick={this.handleShow} className="notification-card">
-                                    <Card.Body>
-                                        <h6> Lorem Ipsum is simply dummy text of the printing</h6>
-                                        <p className="py-1  px-0 text-success m-0"><i className="fa  fa-bell"></i>   Date: 22/12/2010 | Status: Read</p>
-                                    </Card.Body>
-                                </Card>
-
-                            </Col>
-                            <Col className="p-1" md={6} lg={6} sm={12} xs={12}>
-                                <Card onClick={this.handleShow} className="notification-card">
-                                    <Card.Body>
-                                        <h6> Lorem Ipsum is simply dummy text of the printing</h6>
-                                        <p className="py-1  px-0 text-success m-0"><i className="fa  fa-bell"></i>   Date: 22/12/2010 | Status: Read</p>
-                                    </Card.Body>
-                                </Card>
-
-                            </Col>
-                            <Col className="p-1" md={6} lg={6} sm={12} xs={12}>
-                                <Card onClick={this.handleShow} className="notification-card">
-                                    <Card.Body>
-                                        <h6> Lorem Ipsum is simply dummy text of the printing</h6>
-                                        <p className="py-1  px-0 text-danger m-0"><i className="fa  fa-bell"></i>   Date: 22/12/2010 | Status: Read</p>
-                                    </Card.Body>
-                                </Card>
-
-                            </Col>
-                            <Col className="p-1" md={6} lg={6} sm={12} xs={12}>
-                                <Card onClick={this.handleShow} className="notification-card">
-                                    <Card.Body>
-                                        <h6> Lorem Ipsum is simply dummy text of the printing</h6>
-                                        <p className="py-1  px-0 text-danger m-0"><i className="fa  fa-bell"></i>   Date: 22/12/2010 | Status: Read</p>
-                                    </Card.Body>
-                                </Card>
-
-                            </Col>
+                           {MyView}
                         </Row>
                     </Container>
 
 
-                    <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal show={this.state.NotificationStatus} onHide={this.handleClose}>
                         <Modal.Header closeButton>
-                            <h6><i className="fa  fa-bell"></i>   Date: 22/12/2010 </h6>
+                            <h6><i className="fa  fa-bell"></i>{this.state.date}</h6>
                         </Modal.Header>
                         <Modal.Body>
-                            <h6> Lorem Ipsum is simply dummy text of the printing</h6>
-                            <p> Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply dummy text of the printing</p>
-                            <p> Lorem Ipsum is simply dummy text of the printing Lorem Ipsum is simply dummy text of the printing</p>
+                            <h6><b>{this.state.title}</b></h6>
+                            <hr/>
+                            <p>{this.state.message}</p>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={this.handleClose}>

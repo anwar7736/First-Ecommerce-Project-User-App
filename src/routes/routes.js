@@ -2,7 +2,8 @@ import React, {Component, Fragment} from 'react';
 import {Route} from 'react-router-dom';
 import { AnimatedSwitch } from 'react-router-transition';
 import HomePage from '../pages/HomePage';
-import UserOnboardPage from '../pages/UserOnboardPage';
+import UserSignupPage from '../pages/UserSignupPage';
+import UserLoginPage from '../pages/UserLoginPage';
 import ContactPage from '../pages/ContactPage';
 import ProductDetailsPage from '../pages/ProductDetailsPage';
 import RefundPage from '../pages/RefundPage';
@@ -12,6 +13,7 @@ import AboutPage from '../pages/AboutPage';
 import NotificationPage from '../pages/NotificationPage';
 import FavouritePage from '../pages/FavouritePage';
 import CartPage from '../pages/CartPage';
+import SearchPage from '../pages/SearchPage';
 import ProductListByCategory from '../pages/ProductListByCategory';
 import ProductListBySubcategory from '../pages/ProductListBySubcategory';
 
@@ -19,14 +21,9 @@ class Routes extends React.Component{
  render() {
     return (
         <Fragment>
-           <AnimatedSwitch
-              atEnter={{ opacity: 0 }}
-              atLeave={{ opacity: 0 }}
-              atActive={{ opacity: 1 }}
-              className="switch-wrapper"
-            >
                 <Route exact path="/" render={(props)=> <HomePage {...props} key={ Date.now() } />} />
-                <Route exact path="/onboard" render={(props)=> <UserOnboardPage {...props} key={ Date.now() } />} />
+                <Route exact path="/user_signup" render={(props)=> <UserSignupPage {...props} key={ Date.now() } />} />
+                <Route exact path="/user_login" render={(props)=> <UserLoginPage {...props} key={ Date.now() } />} />
                 <Route exact path="/product_details/:product_code" render={(props)=> <ProductDetailsPage {...props} key={ Date.now() } />} />
                 <Route exact path="/contact" render={(props)=> <ContactPage {...props} key={ Date.now() } />} />
                 <Route exact path="/refund" render={(props)=> <RefundPage {...props} key={ Date.now() } />} />
@@ -38,7 +35,8 @@ class Routes extends React.Component{
                 <Route exact path="/cart" render={(props)=> <CartPage {...props} key={ Date.now() } />} />
                 <Route exact path="/ProductListByCategory/:category" render={(props)=> <ProductListByCategory {...props} key={ Date.now() } />} />
                 <Route exact path="/ProductListBySubcategory/:category/:subcategory" render={(props)=> <ProductListBySubcategory {...props} key={ Date.now() } />} />
-            </AnimatedSwitch>
+                <Route exact path="/ProductListBySearch/:search_query" render={(props)=> <SearchPage {...props} key={ Date.now() } />} />
+       
         </Fragment>
     );
   }

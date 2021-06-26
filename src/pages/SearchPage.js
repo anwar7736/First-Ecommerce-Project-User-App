@@ -7,13 +7,15 @@ import FooterDesktop from '../components/common/FooterDesktop';
 import FooterMobile from '../components/common/FooterMobile';
 import Axios from 'axios';
 import ApiURL from '../api/ApiURL';
-import DescriptionPlaceholder from '../components/placeholder/DescriptionPlaceholder'
+import SearchList from '../components/ProductDetails/SearchList';
+import ProductListLoader from '../components/placeholder/ProductListLoader'
 
 class NotificationPage extends React.Component{
-    constructor(){
+    constructor({match}){
         super();
         this.state = {
-            NotificationList : [],
+            ProductList : [],
+            search_query : match.params.search_query,
             isLoading : 'mt-5',
             mainDiv : 'd-none',
 
@@ -21,9 +23,9 @@ class NotificationPage extends React.Component{
     }
     componentDidMount() {
         window.scroll(0,0);
-        Axios.get(ApiURL.GetNotificationList)
+        Axios.get(ApiURL.ProductListBySearch(this.state.search_query))
         .then(response=>{
-            this.setState({NotificationList : response.data, isLoading : 'd-none', mainDiv : ''});
+            this.setState({ProductList : response.data, isLoading : 'd-none', mainDiv : ''});
         })
         .catch(error=>{
 
@@ -37,13 +39,13 @@ class NotificationPage extends React.Component{
                 <NavMenuMobile/>
             </div>
             <div className="Desktop">
-                <NavMenuDesktop/>
+                <NavMenuDesktop search_query = {this.state.search_query}/>
             </div>
            <div className={this.state.isLoading}>
-                <DescriptionPlaceholder/>
+                <ProductListLoader/>
            </div>
            <div className={this.state.mainDiv}>
-                <Notification NotificationList={this.state.NotificationList}/>
+                <SearchList search_query = {this.state.search_query} ProductList={this.state.ProductList}/>
            </div>
             <div className="Desktop">
                 <FooterDesktop/>
