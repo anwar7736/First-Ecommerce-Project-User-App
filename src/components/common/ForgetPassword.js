@@ -7,51 +7,23 @@ import validation from '../../validation/validation';
 import Axios from 'axios';
 import ApiURL from '../../api/ApiURL';
 
-class UserSignup extends Component {
+class ForgetPassword extends Component {
     constructor(){
         super();
         this.state = {
-            fullname : '',
-            username : '',
             email : '',
-            photo : '',
             password : '',
+            confirm_password : '',
             redirectStatus : false,
         }
     }
-    onRegistration=(event)=>{
+    onRecoveryHandler=(event)=>{
         event.preventDefault();
-        let fullname = this.state.fullname;
-        let username = this.state.username;
         let email = this.state.email;
-        let photo = this.state.photo;
         let password = this.state.password;
-        if(fullname.length==0)
-        {
-            cogoToast.error('Name is Required!');
-        }
-        
-        else if(!validation.NameRegx.test(fullname))
-        {
-             cogoToast.error('Name is Invalid!');
-        } 
+        let confirm_password = this.state.confirm_password;
 
-        else if(username.length==0)
-        {
-            cogoToast.error('Username is Required!');
-        } 
-
-        else if(username.length < 3)
-        {
-            cogoToast.error('Username is Too Short!');
-        }
-        
-        else if(!validation.UserNameRegx.test(username))
-        {
-             cogoToast.error('Username is Invalid!');
-        }
-
-        else if(email.length==0)
+        if(email.length==0)
         {
             cogoToast.error('Email Address is Required!');
         }
@@ -63,28 +35,40 @@ class UserSignup extends Component {
 
         else if(password.length==0)
         {
-            cogoToast.error('Password is Required!');
+            cogoToast.error('New Password is Required!');
         } 
 
         else if(password.length < 3)
         {
-            cogoToast.error('Password is Too Short!');
+            cogoToast.error('New Password is Too Short!');
+        } 
+
+        else if(confirm_password.length==0)
+        {
+            cogoToast.error('Confirm Password is Required!');
+        } 
+
+        else if(confirm_password.length < 3)
+        {
+            cogoToast.error('Confirm Password is Too Short!');
+        } 
+
+        else if(password!=confirm_password)
+        {
+            cogoToast.error('Both Password does not match!');
         }
 
         else
         {
             let MyForm = new FormData();
-            MyForm.append('fullname', fullname);
-            MyForm.append('username', username);
             MyForm.append('email', email);
-            MyForm.append('photo', photo);
             MyForm.append('password', password);
 
-            Axios.post(ApiURL.UserRegistration, MyForm)
+            Axios.post(ApiURL.ForgetPassword, MyForm)
             .then(response=>{
                 if(response.status==200 && response.data==1)
                 {
-                    cogoToast.success('Registration Successfully, Now You Can Login');
+                    cogoToast.success('Password Recover Successfully, Now You Can Login');
                     setTimeout(()=>{
                         this.setState({redirectStatus : true});
                     },3000);
@@ -116,22 +100,19 @@ class UserSignup extends Component {
                     <Row>
                         <Breadcrumb className=" shadow-sm w-100 bg-white mt-3">
                           <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
-                          <Breadcrumb.Item><Link to="/user_signup">Signup</Link></Breadcrumb.Item>
+                          <Breadcrumb.Item><Link to="/forget_password">Forget Password</Link></Breadcrumb.Item>
                         </Breadcrumb>
                     </Row>
                     <Row className="p-0">
                         <Col className="offset-md-3 shadow-sm bg-white mt-1" md={6} lg={6} sm={12} xs={12}>
                             <Row className="text-center ">
                                 <Col className="" md={12} lg={12} sm={12} xs={12}>
-                                    <Form id="UserForm" onSubmit={this.onRegistration} className="onboardForm">
-                                        <h3 className="section-title">USER REGISTRATION</h3>
-                                        <input onChange={(e)=>this.setState({fullname : e.target.value})} className="form-control m-2" type="text" placeholder="Enter your full name..."/>
-                                        <input onChange={(e)=>this.setState({username : e.target.value})} className="form-control m-2" type="text" placeholder="Enter your username..."/>
+                                    <Form id="UserForm" onSubmit={this.onRecoveryHandler} className="onboardForm">
+                                        <h3 className="section-title">Password Recovery System</h3>
                                         <input onChange={(e)=>this.setState({email : e.target.value})} className="form-control m-2" type="text" placeholder="Enter your valid email address..."/>
-                                        <h6 className="float-left ml-3">Choose Profile Picture</h6>
-                                        <input onChange={(e)=>this.setState({photo : e.target.files[0]})} className="form-control m-2" type="file" />
-                                        <input onChange={(e)=>this.setState({password : e.target.value})} className="form-control m-2" type="password" placeholder="Enter your strong password..."/>
-                                        <Button type="submit" className="btn btn-block m-2 btn-success">SIGN UP</Button>
+                                        <input onChange={(e)=>this.setState({password : e.target.value})} className="form-control m-2" type="password" placeholder="Enter your new password..."/>
+                                        <input onChange={(e)=>this.setState({confirm_password : e.target.value})} className="form-control m-2" type="password" placeholder="Enter your confirm new password..."/>
+                                        <Button type="submit" className="btn btn-block m-2 btn-success">SUBMIT</Button>
                                         <span className="text-danger">Already registered? <Link to="/user_login">Login</Link></span>
                                     </Form>
                                 </Col>
@@ -146,4 +127,4 @@ class UserSignup extends Component {
     }
 }
 
-export default UserSignup;
+export default ForgetPassword;

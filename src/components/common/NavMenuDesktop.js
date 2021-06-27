@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import  {Container,Nav,Navbar, Row, Col, Button, InputGroup, NavDropdown} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {Redirect} from "react-router";
+import SessionHelper from '../../SessionHelper/SessionHelper';
 
 class NavMenuDesktop extends React.Component{
     constructor(){
@@ -9,11 +10,9 @@ class NavMenuDesktop extends React.Component{
         this.state = {
             search_query : '',
             status : false,  
+            homeRedirectStatus : false,
         }
        
-    }
-    componentDidMount(){
-        this.setState({search_query : this.props.search_query})
     }
 
     SearchOnChange=(event)=>{
@@ -34,52 +33,106 @@ class NavMenuDesktop extends React.Component{
        
     }
 
+    onLogout=()=>{
+        sessionStorage.clear();
+        this.setState({homeRedirectStatus : true});
+      
+    }
+    onRedirectHome=()=>{
+        if(this.state.homeRedirectStatus===true)  
+            return (
+                <Redirect to="/user_login" />
+               )
+    }
+
  render() {
-    return (
+    let name = SessionHelper.getNameSession();
+    let photo = SessionHelper.getPhotoSession();
+    if(name==null)
+    {
+            return (
+            <Fragment>
+                <Container fluid={true} className="fixed-top shadow-sm p-2 m-0 bg-white" >
+                    <Row>
+                        <Col className="p-1" xl={4} lg={4} md={4} sm={12} xs={12}>
+                           <Link to="/" className="btn"> <img className="nav-logo" src="../../../images/logo.png"/></Link>
+                           <Link to="/cart" className="link cart-btn"><i className="fa fa-shopping-cart"></i> 0 items </Link>
+                             
+                        </Col>
+                        <Col className="p-1" xl={5} lg={5} md={5} sm={12} xs={12}>
+                                <div className="input-group w-100">
+                                <input onChange={this.SearchOnChange} type="search" className="form-control-search" aria-label="Text input with segmented dropdown button"/>
+                                <button onClick={this.SearchOnClick} type="button" placeholder="Search Here...." className="btn site-btn"><i className="fa fa-search"></i></button>
+                                        </div>
+                        </Col> 
+                         <Col className="p-0" xl={3} lg={3} md={3} sm={6} xs={12}>
+                             <div className="input-group w-100">
+                             <Link to="/user_login" className="h4 btn btn-danger btn-sm p-2">LOGIN</Link>
+                             </div>
+
+                        </Col>     
+                    </Row>
+                   {this.searchRedirect()}
+                   {this.onRedirectHome()}
+                </Container>
+            </Fragment>
+        );
+            }
+
+        else{
+        return (
         <Fragment>
-            <Container fluid={true} className="fixed-top shadow-sm p-2 m-0 bg-white" >
-                <Row>
-                    <Col className="p-1" xl={4} lg={4} md={4} sm={12} xs={12}>
-                       <Link to="/" className="btn"> <img className="nav-logo" src="../../../images/logo.png"/></Link>
-                       <Link to="/cart" className="link cart-btn"><i className="fa fa-shopping-cart"></i> 0 items </Link>
-                    </Col>
-                    <Col className="p-1" xl={4} lg={4} md={4} sm={6} xs={12}>
-                         <div className="input-group w-100">
+        <Container fluid={true} className="fixed-top shadow-sm p-2 m-0 bg-white" >
+            <Row>
+                <Col className="p-1" xl={4} lg={4} md={4} sm={12} xs={12}>
+                   <Link to="/" className="btn"> <img className="nav-logo" src="../../../images/logo.png"/></Link>
+                   <Link to="/cart" className="link cart-btn"><i className="fa fa-shopping-cart"></i> 0 items </Link>
+                     
+                </Col>
+                <Col className="p-1" xl={5} lg={5} md={5} sm={12} xs={12}>
+                        <div className="input-group w-100">
+                        <input onChange={this.SearchOnChange} type="search" className="form-control-search" aria-label="Text input with segmented dropdown button"/>
+                        <button onClick={this.SearchOnClick} type="button" placeholder="Search Here...." className="btn site-btn"><i className="fa fa-search"></i></button>
+                                </div>
+                </Col> 
+                 <Col className="p-0" xl={3} lg={3} md={3} sm={6} xs={12}>
+                     <div className="input-group w-100">
+                         <NavDropdown title={<img className="profile-photo" src={photo}/>} id="navbarScrollingDropdown">
+                             <NavDropdown.Item>
+                                <span className="text-muted">{name}</span>
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item>
+                                 <Link to="/notification" className="btn"><i className="fa h4  fa-bell"></i> <sup><span className="badge text-white bg-danger">1</span></sup></Link>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item>
+                                <Link to="/favourite" className="btn"><i className="fa h4 fa-heart"></i>  <sup><span className="badge text-white bg-danger">1</span></sup></Link>
+                            </NavDropdown.Item>
+                             <NavDropdown.Item>
+                                <Link to="/"><span className="text-success">My Profile</span></Link>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item>
+                                <Link to="/change_password"><span className="text-danger">Change Password</span></Link>
+                            </NavDropdown.Item>
+                          
+                            <NavDropdown.Item>
+                                <a onClick={this.onLogout} className="link">Logout</a>
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                      </NavDropdown>  
+                     </div>
 
-                            <input value={this.state.search_query} onChange={this.SearchOnChange} type="text" className="form-control" aria-label="Text input with segmented dropdown button"/>
-                            <button onClick={this.SearchOnClick} type="button" className="btn site-btn"><i className="fa fa-search"></i></button>
-                             <NavDropdown title={<img className="profile-photo" src="/images/Hydrangeas.jpg"/>} id="navbarScrollingDropdown">
-                                 <NavDropdown.Item>
-                                    <span className="text-muted">Md Anwar Hossain</span>
-                                </NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item>
-                                    <Link to="/">Profile</Link>
-                                </NavDropdown.Item>
-                                <NavDropdown.Item>
-                                    <Link to="/">Change Password</Link>
-                                </NavDropdown.Item>
-                                <NavDropdown.Item>
-                                    <Link to="/">Logout</Link>
-                                </NavDropdown.Item>
-                                <NavDropdown.Divider />
-                          </NavDropdown>  
-                         </div>
-
-                    </Col>
-                    <Col className="p-1" xl={2} lg={2} md={2} sm={12} xs={12}>
-
-                        <Link to="/favourite" className="btn"><i className="fa h4 fa-heart"></i>  <sup><span className="badge text-white bg-danger">1</span></sup></Link>
-                                <Link to="/notification" className="btn"><i className="fa h4  fa-bell"></i> <sup><span className="badge text-white bg-danger">1</span></sup></Link>
-                        <Link to="/user_login" className="h4 btn-sm btn btn-danger">LOGIN</Link>               
-                       
-                    </Col>      
-                </Row>
-               {this.searchRedirect()}
-            </Container>
+                </Col>     
+            </Row>
+           {this.searchRedirect()}
+           {this.onRedirectHome()}
+        </Container>
         </Fragment>
-    );
-  }
-}
+        );
+
+        }
+
+        }
+        }
 
 export default NavMenuDesktop;

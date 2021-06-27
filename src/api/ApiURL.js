@@ -6,6 +6,9 @@ class ApiURL{
 	static GetCategoryDetails = this.baseURL + "GetCategoryInfo";
 	static GetSliderInfo = this.baseURL + "GetSliderInfo";
 	static GetNotificationList = this.baseURL + "GetNotificationList";
+	static UserRegistration = this.baseURL + "UserRegistration";
+	static ForgetPassword = this.baseURL + "ForgetPassword";
+	static UserLogin = this.baseURL + "UserLogin";
 
 	static ProductListByRemark(remark){
 		return this.baseURL+"ProductListByRemark/"+remark;

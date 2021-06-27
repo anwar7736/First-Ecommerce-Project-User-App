@@ -5,6 +5,7 @@ import Axios from 'axios';
 import cogoToast from 'cogo-toast';
 import ApiURL from '../../api/ApiURL';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import SessionHelper from '../../SessionHelper/SessionHelper';
 
 class Refund extends React.Component{
         constructor(){
@@ -16,7 +17,7 @@ class Refund extends React.Component{
         }
     }
     componentDidMount(){
-        let getSession = sessionStorage.getItem('Refund');
+        let getSession = SessionHelper.getRefundSession();
 
         if(getSession==null)
         {
@@ -25,8 +26,8 @@ class Refund extends React.Component{
                 if(response.status==200)
                 {
                     let Refund = response.data[0]['refund'];
-                    sessionStorage.setItem('Refund', Refund);
-                    this.setState({refund: sessionStorage.getItem('Refund'), loaderDiv: 'd-none', mainDiv: ''});
+                    SessionHelper.setRefundSession(Refund);
+                    this.setState({refund: SessionHelper.getRefundSession(), loaderDiv: 'd-none', mainDiv: ''});
 
                 }
             })

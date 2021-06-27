@@ -39,7 +39,7 @@ class NotificationPage extends React.Component{
                 <NavMenuMobile/>
             </div>
             <div className="Desktop">
-                <NavMenuDesktop search_query = {this.state.search_query}/>
+                <NavMenuDesktop/>
             </div>
            <div className={this.state.isLoading}>
                 <ProductListLoader/>

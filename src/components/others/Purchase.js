@@ -5,6 +5,7 @@ import Axios from 'axios';
 import cogoToast from 'cogo-toast';
 import ApiURL from '../../api/ApiURL';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import SessionHelper from '../../SessionHelper/SessionHelper';
 
 class Purchase extends React.Component{
         constructor(){
@@ -16,7 +17,7 @@ class Purchase extends React.Component{
         }
     }
      componentDidMount(){
-        let getSession = sessionStorage.getItem('Purchase');
+        let getSession = SessionHelper.getPurchaseSession();
 
         if(getSession==null)
         {
@@ -25,8 +26,8 @@ class Purchase extends React.Component{
                 if(response.status==200)
                 {
                     let Purchase = response.data[0]['purchase'];
-                    sessionStorage.setItem('Purchase', Purchase);
-                    this.setState({purchase: sessionStorage.getItem('Purchase'), loaderDiv: 'd-none', mainDiv: ''});
+                    SessionHelper.setPurchaseSession(Purchase);
+                    this.setState({purchase: SessionHelper.getPurchaseSession(), loaderDiv: 'd-none', mainDiv: ''});
 
                 }
             })

@@ -1,8 +1,71 @@
 import React, {Component, Fragment} from 'react';
 import {Button, Card, Col, Container, Form, Row, Breadcrumb} from "react-bootstrap";
 import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router';
+import cogoToast from 'cogo-toast';
+import validation from '../../validation/validation';
+import Axios from 'axios';
+import ApiURL from '../../api/ApiURL';
+import SessionHelper from '../../SessionHelper/SessionHelper';
 
 class UserLogin extends Component {
+      constructor(){
+        super();
+        this.state = {
+            username : '',
+            password : '',
+            redirectStatus : false,
+        }
+    }
+    onLoginHandler=(event)=>{
+        event.preventDefault();
+        let username = this.state.username;
+        let password = this.state.password;
+
+        if(username.length==0)
+        {
+            cogoToast.error('Username or Email Address is Required!');
+        }
+
+        else if(password.length==0)
+        {
+            cogoToast.error('Password is Required!');
+        } 
+
+        else
+        {
+            let MyForm = new FormData();
+            MyForm.append('username', username);
+            MyForm.append('password', password);
+
+            Axios.post(ApiURL.UserLogin, MyForm)
+            .then(response=>{
+                if(response.status==200 && response.data!=0)
+                {
+                    SessionHelper.setNameSession(response.data.name);
+                    SessionHelper.setEmailSession(response.data.email);
+                    SessionHelper.setPhotoSession(response.data.photo);
+                    document.getElementById('UserForm').reset();
+                    this.setState({redirectStatus : true});
+                }
+                else
+                {
+                    cogoToast.error('Username or Password Wrong!');
+                }
+            })
+            .catch(error=>{
+                 cogoToast.error('Something went wrong! Please try again!');
+            })
+        }
+        
+    }
+    onRedirectHome=()=>{
+        if(this.state.redirectStatus===true){
+            return (
+                    <Redirect to="/" />
+                   );
+        }
+    }
     render() {
         return (
             <Fragment>
@@ -17,13 +80,13 @@ class UserLogin extends Component {
                         <Col className="offset-md-3 shadow-sm bg-white mt-1" md={6} lg={6} sm={12} xs={12}>
                             <Row className="text-center ">
                                 <Col className="" md={12} lg={12} sm={12} xs={12}>
-                                    <Form className="onboardForm">
+                                    <Form id="UserForm" onSubmit={this.onLoginHandler} className="onboardForm">
                                         <h3 className="section-title mt-3">USER LOGIN</h3>
-                                        <input className="form-control m-2" type="text" placeholder="Username or Email..."/>
-                                        <input className="form-control m-2" type="text" placeholder="User Password..."/>
-                                        <Button className="btn btn-block m-2 site-btn">Login</Button>
+                                        <input onChange={(e)=>this.setState({username : e.target.value})} className="form-control m-2" type="text" placeholder="Username or Email..."/>
+                                        <input onChange={(e)=>this.setState({password : e.target.value})} className="form-control m-2" type="password" placeholder="User Password..."/>
+                                        <Button type="submit" className="btn btn-block m-2 site-btn">Login</Button>
                                         <span className="text-danger" >No yet a registered? <Link to="/user_signup">Signup</Link></span><br/>
-                                        <span><Link to="/user_login">Forgotten Password</Link></span>
+                                        <span><Link to="/forget_password">Forgotten Password?</Link></span>
                                     </Form>
                                 </Col>
                          
@@ -31,6 +94,7 @@ class UserLogin extends Component {
                         </Col>
                     </Row>
                 </Container>
+                {this.onRedirectHome()}
             </Fragment>
         );
     }

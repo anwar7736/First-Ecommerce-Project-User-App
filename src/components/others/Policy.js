@@ -5,6 +5,7 @@ import Axios from 'axios';
 import cogoToast from 'cogo-toast';
 import ApiURL from '../../api/ApiURL';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import SessionHelper from '../../SessionHelper/SessionHelper';
 
 class Policy extends React.Component{
      constructor(){
@@ -16,7 +17,7 @@ class Policy extends React.Component{
         }
     }
   componentDidMount(){
-        let getSession = sessionStorage.getItem('Policy');
+        let getSession = SessionHelper.getPolicySession();
 
         if(getSession==null)
         {
@@ -25,8 +26,8 @@ class Policy extends React.Component{
                 if(response.status==200)
                 {
                     let Policy = response.data[0]['privacy'];
-                    sessionStorage.setItem('Policy', Policy);
-                    this.setState({policy: sessionStorage.getItem('Policy'), loaderDiv: 'd-none', mainDiv: ''});
+                   SessionHelper.setPolicySession(Policy);
+                    this.setState({policy: SessionHelper.getPolicySession(), loaderDiv: 'd-none', mainDiv: ''});
 
                 }
             })

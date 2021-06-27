@@ -5,6 +5,7 @@ import Axios from 'axios';
 import cogoToast from 'cogo-toast';
 import ApiURL from '../../api/ApiURL';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import SessionHelper from '../../SessionHelper/SessionHelper';
 
 class About extends React.Component{
     constructor(){
@@ -16,7 +17,7 @@ class About extends React.Component{
         }
     }
     componentDidMount(){
-        let getSession = sessionStorage.getItem('About');
+        let getSession = SessionHelper.getAboutSession();
 
         if(getSession==null)
         {
@@ -25,8 +26,8 @@ class About extends React.Component{
                 if(response.status==200)
                 {
                     let About = response.data[0]['about'];
-                    sessionStorage.setItem('About', About);
-                    this.setState({about: sessionStorage.getItem('About'), loaderDiv: 'd-none', mainDiv: ''});
+                    SessionHelper.setAboutSession(About);
+                    this.setState({about:  SessionHelper.getAboutSession(), loaderDiv: 'd-none', mainDiv: ''});
 
                 }
             })
