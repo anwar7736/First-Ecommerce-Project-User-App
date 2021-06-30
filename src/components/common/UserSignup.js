@@ -14,6 +14,7 @@ class UserSignup extends Component {
             fullname : '',
             username : '',
             email : '',
+            phone : '',
             photo : '',
             password : '',
             redirectStatus : false,
@@ -24,6 +25,7 @@ class UserSignup extends Component {
         let fullname = this.state.fullname;
         let username = this.state.username;
         let email = this.state.email;
+        let phone = this.state.phone;
         let photo = this.state.photo;
         let password = this.state.password;
         if(fullname.length==0)
@@ -59,6 +61,16 @@ class UserSignup extends Component {
         else if(!validation.EmailRegx.test(email))
         {
              cogoToast.error('Invalid Email Address!');
+        } 
+
+        else if(phone.length==0)
+        {
+            cogoToast.error('Mobile Number is Required!');
+        }
+        
+        else if(!validation.MobileRegx.test(phone))
+        {
+             cogoToast.error('Invalid Mobile Number!');
         }
 
         else if(password.length==0)
@@ -77,6 +89,7 @@ class UserSignup extends Component {
             MyForm.append('fullname', fullname);
             MyForm.append('username', username);
             MyForm.append('email', email);
+            MyForm.append('phone', phone);
             MyForm.append('photo', photo);
             MyForm.append('password', password);
 
@@ -128,6 +141,7 @@ class UserSignup extends Component {
                                         <input onChange={(e)=>this.setState({fullname : e.target.value})} className="form-control m-2" type="text" placeholder="Enter your full name..."/>
                                         <input onChange={(e)=>this.setState({username : e.target.value})} className="form-control m-2" type="text" placeholder="Enter your username..."/>
                                         <input onChange={(e)=>this.setState({email : e.target.value})} className="form-control m-2" type="text" placeholder="Enter your valid email address..."/>
+                                        <input onChange={(e)=>this.setState({phone : e.target.value})} className="form-control m-2" type="text" placeholder="Enter your valid mobile number..."/>
                                         <h6 className="float-left ml-3">Choose Profile Picture</h6>
                                         <input onChange={(e)=>this.setState({photo : e.target.files[0]})} className="form-control m-2" type="file" />
                                         <input onChange={(e)=>this.setState({password : e.target.value})} className="form-control m-2" type="password" placeholder="Enter your strong password..."/>

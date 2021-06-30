@@ -1,15 +1,89 @@
 import React, {Component, Fragment} from 'react';
 import {Button, Card, Col, Container, Row, Breadcrumb} from "react-bootstrap";
 import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router';
+import Axios from 'axios';
+import ApiURL from '../../api/ApiURL';
+import cogoToast from 'cogo-toast';
+import SessionHelper from '../../SessionHelper/SessionHelper';
 
 class Favourite extends Component {
+    constructor(){
+        super();
+        this.state = {
+            FavList : [],
+            refreshStatus : false,
+        }
+    }
+    componentDidMount(){
+        let user_id = SessionHelper.getIdSession();
 
+        Axios.get(ApiURL.FavItemList(user_id))
+        .then(response=>{
+            if(response.status===200)
+            {
+                this.setState({FavList : response.data});
+            }
+        })
+        .catch(error=>{
 
+        })
+    }
+    
+    RemoveFavItem=(item_id)=>{
+         Axios.get(ApiURL.RemoveFavItem(item_id))
+        .then(response=>{
+            if(response.status===200 && response.data===1)
+            {
+                 cogoToast.success('Product Removed List', {position : 'bottom-center'});
+                 this.setState({refreshStatus: true});
+            }
+            else
+            {
+                 cogoToast.error('Something Went Wrong!', {position : 'bottom-center'});
+            }
+        })
+        .catch(error=>{
+
+        })
+    }
+
+      PageRefresh=()=>{
+        if(this.state.refreshStatus===true)
+        {
+            let URL = window.location;
+            return (
+                    <Redirect to={URL} />
+                    );
+        }
+    }
     render() {
+       let MyList = this.state.FavList;
 
+       let MyView = MyList.map((List,i)=>{
+            return (
+                    <>
+                        
+                            <Col className="p-1" xl={2} lg={2} md={2} sm={6} xs={6} >
+                               
+                                    <Card className="card text-center w-100  image-box ">
+                                         <Link className="link" to={"/product_details/"+List.product_code}>
+                                            <img src={List.product_image}/>    
+                                         </Link>
+                                        <Card.Body>
+                                            <h5 className="product-name-on-card">{List.product_name}</h5>
+                                            <p className="product-price-on-card">Price: {List.product_price}TK</p>
+                                              <Button onClick={()=>this.RemoveFavItem(List.id)} className="btn btn-sm site-btn"><i className="fa fa-trash-alt"></i> Remove </Button>
+                                        </Card.Body>
+                                    </Card>
+                            </Col>
+                            
+                    </>
+                );
+        })
         return (
             <Fragment>
-                <Container  className="text-center bg-white card-body shadow-sm py-5 BetweenTwoSection" fluid={true}>
+                <Container  className="text-center bg-white card-body shadow-sm py-5 BetweenTwoSection animated slideInDown" fluid={true}>
                     <Row>
                         <Breadcrumb className="shadow-sm w-100 bg-white mt-3">
                           <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
@@ -19,83 +93,10 @@ class Favourite extends Component {
                     <h4 className="section-title ">My Favourite Items</h4>
                     <h6 className="section-sub-title pb-3">Some Of Our Exclusive Collection, You May Like</h6>
                     <Row >
-                        <Col className="p-1" xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Card className="card text-center w-100  image-box ">
-                                <img src="https://static-01.daraz.com.bd/p/e83135c4f08dba766d539651fb79d2fa.jpg_400x400q75.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                    <Button className="btn btn-sm site-btn"><i className="fa fa-trash-alt"></i> Remove </Button>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-                        <Col className="p-1" xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Card className="card text-center w-100  image-box ">
-                                <img src="https://static-01.daraz.com.bd/p/e83135c4f08dba766d539651fb79d2fa.jpg_400x400q75.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                    <Button className="btn btn-sm site-btn"><i className="fa fa-trash-alt"></i> Remove </Button>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-
-                        <Col className="p-1" xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Card className="card text-center w-100  image-box ">
-                                <img src="https://static-01.daraz.com.bd/p/e83135c4f08dba766d539651fb79d2fa.jpg_400x400q75.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                    <Button className="btn btn-sm site-btn"><i className="fa fa-trash-alt"></i> Remove </Button>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-
-                        <Col className="p-1" xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Card className="card text-center w-100  image-box ">
-                                <img src="https://static-01.daraz.com.bd/p/e83135c4f08dba766d539651fb79d2fa.jpg_400x400q75.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                    <Button className="btn btn-sm site-btn"><i className="fa fa-trash-alt"></i> Remove </Button>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-
-
-                        <Col className="p-1" xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Card className="card text-center w-100  image-box ">
-                                <img src="https://static-01.daraz.com.bd/p/e83135c4f08dba766d539651fb79d2fa.jpg_400x400q75.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                    <Button className="btn btn-sm site-btn"><i className="fa fa-trash-alt"></i> Remove </Button>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-                        <Col className="p-1" xl={3} lg={3} md={3} sm={6} xs={6} >
-                            <Card className="card text-center w-100  image-box ">
-                                <img src="https://static-01.daraz.com.bd/p/e83135c4f08dba766d539651fb79d2fa.jpg_400x400q75.jpg"/>
-                                <Card.Body>
-                                    <h5 className="product-name-on-card">ASUS TUF A15 FA506IU Ryzen 7 4800H GTX</h5>
-                                    <p className="product-price-on-card">Price: 3000TK</p>
-                                    <Button className="btn btn-sm site-btn"><i className="fa fa-trash-alt"></i> Remove </Button>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-
-
-
-
-
+                        {MyView}
                     </Row>
                 </Container>
+                 {this.PageRefresh()}
             </Fragment>
         );
     }

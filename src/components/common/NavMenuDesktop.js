@@ -2,6 +2,8 @@ import React, {Component, Fragment} from 'react';
 import  {Container,Nav,Navbar, Row, Col, Button, InputGroup, NavDropdown} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {Redirect} from "react-router";
+import Axios from 'axios';
+import ApiURL from '../../api/ApiURL';
 import SessionHelper from '../../SessionHelper/SessionHelper';
 
 class NavMenuDesktop extends React.Component{
@@ -9,10 +11,21 @@ class NavMenuDesktop extends React.Component{
         super();
         this.state = {
             search_query : '',
+            cartCount : '0',
             status : false,  
             homeRedirectStatus : false,
         }
        
+    }
+
+    componentDidMount(){
+        Axios.get(ApiURL.CartCount(SessionHelper.getIdSession()))
+        .then(response=>{
+            this.setState({cartCount : response.data});
+        })
+        .catch(error=>{
+
+        })
     }
 
     SearchOnChange=(event)=>{
@@ -34,7 +47,11 @@ class NavMenuDesktop extends React.Component{
     }
 
     onLogout=()=>{
-        sessionStorage.clear();
+        sessionStorage.removeItem('id');
+        sessionStorage.removeItem('name');
+        sessionStorage.removeItem('email');
+        sessionStorage.removeItem('phone');
+        sessionStorage.removeItem('photo');
         this.setState({homeRedirectStatus : true});
       
     }
@@ -56,7 +73,7 @@ class NavMenuDesktop extends React.Component{
                     <Row>
                         <Col className="p-1" xl={4} lg={4} md={4} sm={12} xs={12}>
                            <Link to="/" className="btn"> <img className="nav-logo" src="../../../images/logo.png"/></Link>
-                           <Link to="/cart" className="link cart-btn"><i className="fa fa-shopping-cart"></i> 0 items </Link>
+                           <Link to="/cart" className="link cart-btn"><i className="fa fa-shopping-cart"></i> {this.state.cartCount} items </Link>
                              
                         </Col>
                         <Col className="p-1" xl={5} lg={5} md={5} sm={12} xs={12}>
@@ -86,7 +103,7 @@ class NavMenuDesktop extends React.Component{
             <Row>
                 <Col className="p-1" xl={4} lg={4} md={4} sm={12} xs={12}>
                    <Link to="/" className="btn"> <img className="nav-logo" src="../../../images/logo.png"/></Link>
-                   <Link to="/cart" className="link cart-btn"><i className="fa fa-shopping-cart"></i> 0 items </Link>
+                   <Link to="/cart" className="link cart-btn"><i className="fa fa-shopping-cart"></i> {this.state.cartCount} items </Link>
                      
                 </Col>
                 <Col className="p-1" xl={5} lg={5} md={5} sm={12} xs={12}>

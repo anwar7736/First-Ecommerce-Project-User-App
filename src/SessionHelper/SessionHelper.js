@@ -1,5 +1,13 @@
 class SessionHelper{
 
+	static setIdSession(id){
+		sessionStorage.setItem('id', id);
+	}
+
+	static getIdSession(){
+		return sessionStorage.getItem('id');
+	}
+
 	static setNameSession(name){
 		sessionStorage.setItem('name', name);
 	}
@@ -14,6 +22,14 @@ class SessionHelper{
 
 	static getEmailSession(){
 		return sessionStorage.getItem('email');
+	}
+
+	static setPhoneSession(phone){
+		sessionStorage.setItem('phone', phone);
+	}
+
+	static getPhoneSession(){
+		return sessionStorage.getItem('phone');
 	}
 
 	static setPhotoSession(photo){

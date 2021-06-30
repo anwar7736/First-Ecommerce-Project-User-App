@@ -6,12 +6,12 @@ import cogoToast from 'cogo-toast';
 import validation from '../../validation/validation';
 import Axios from 'axios';
 import ApiURL from '../../api/ApiURL';
+import SessionHelper from '../../SessionHelper/SessionHelper';
 
 class ChangePassword extends Component {
     constructor(){
         super();
         this.state = {
-            email : '',
             old_password : '',
             new_password : '',
             confirm_password : '',
@@ -20,22 +20,12 @@ class ChangePassword extends Component {
     }
     onRecoveryHandler=(event)=>{
         event.preventDefault();
-        let email = this.state.email;
+        let email = SessionHelper.getEmailSession();
         let old_password = this.state.old_password;
         let new_password = this.state.new_password;
         let confirm_password = this.state.confirm_password;
 
-        if(email.length==0)
-        {
-            cogoToast.error('Email Address is Required!');
-        }
-        
-        else if(!validation.EmailRegx.test(email))
-        {
-             cogoToast.error('Invalid Email Address!');
-        }
-
-        else if(old_password.length==0)
+        if(old_password.length==0)
         {
             cogoToast.error('Old Password is Required!');
         } 
@@ -74,19 +64,24 @@ class ChangePassword extends Component {
         {
             let MyForm = new FormData();
             MyForm.append('email', email);
-            MyForm.append('old_password', old_password);
-            MyForm.append('new_password', new_password);
+            MyForm.append('oldpass', old_password);
+            MyForm.append('newpass', new_password);
 
-            Axios.post(ApiURL.ForgetPassword, MyForm)
+            Axios.post(ApiURL.ChangePassword, MyForm)
             .then(response=>{
                 if(response.status==200 && response.data==1)
                 {
                     cogoToast.success('Password Changed Successfully, Now You Can Login Again');
                     setTimeout(()=>{
                         this.setState({redirectStatus : true});
+                        sessionStorage.removeItem('id');
+                        sessionStorage.removeItem('name');
+                        sessionStorage.removeItem('email');
+                        sessionStorage.removeItem('phone');
+                        sessionStorage.removeItem('photo');
+
                     },3000);
                     
-                    document.getElementById('UserForm').reset();
                 }
                 else
                 {
@@ -94,7 +89,7 @@ class ChangePassword extends Component {
                 }
             })
             .catch(error=>{
-                 cogoToast.error('Something went wrong! Please try again!');
+                 cogoToast.error('Something Went Wrong! Please Try Again!');
             })
         }
         
@@ -122,11 +117,10 @@ class ChangePassword extends Component {
                                 <Col className="" md={12} lg={12} sm={12} xs={12}>
                                     <Form id="UserForm" onSubmit={this.onRecoveryHandler} className="onboardForm">
                                         <h3 className="section-title">Change Your Password</h3>
-                                        <input onChange={(e)=>this.setState({email : e.target.value})} className="form-control m-2" type="text" placeholder="Enter your valid email address..."/>
                                         <input onChange={(e)=>this.setState({old_password : e.target.value})} className="form-control m-2" type="password" placeholder="Enter your old password..."/>
                                         <input onChange={(e)=>this.setState({new_password : e.target.value})} className="form-control m-2" type="password" placeholder="Enter your new password..."/>
                                         <input onChange={(e)=>this.setState({confirm_password : e.target.value})} className="form-control m-2" type="password" placeholder="Enter your confirm new password..."/>
-                                        <Button type="submit" className="btn btn-block m-2 btn-success">CHANGE PASSWORD</Button>
+                                        <Button type="submit" className="btn btn-block m-2 btn-success">UPDATE NOW</Button>
                                         <span className="text-danger">Already registered? <Link to="/user_login">Login</Link></span>
                                     </Form>
                                 </Col>

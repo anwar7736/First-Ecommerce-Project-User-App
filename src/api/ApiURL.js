@@ -8,7 +8,12 @@ class ApiURL{
 	static GetNotificationList = this.baseURL + "GetNotificationList";
 	static UserRegistration = this.baseURL + "UserRegistration";
 	static ForgetPassword = this.baseURL + "ForgetPassword";
+	static ChangePassword = this.baseURL + "ChangePassword";
 	static UserLogin = this.baseURL + "UserLogin";
+	static AddToFavourite = this.baseURL + "AddToFavourite";
+	static AddToCart = this.baseURL + "AddToCart";
+	static ItemQtyIncrease = this.baseURL + "ItemQtyIncrease";
+	static ItemQtyDecrease = this.baseURL + "ItemQtyDecrease";
 
 	static ProductListByRemark(remark){
 		return this.baseURL+"ProductListByRemark/"+remark;
@@ -37,5 +42,27 @@ class ApiURL{
 	static ProductListBySearch(search_query){
 		return this.baseURL+"ProductListBySearch/"+search_query;
 	}
+
+	static CartCount(user_id){
+		return this.baseURL+"CartCount/"+user_id;
+	}
+
+	static FavItemList(user_id){
+		return this.baseURL+"FavItemList/"+user_id;
+	}
+
+	static RemoveFavItem(item_id){
+		return this.baseURL+"RemoveFavItem/"+item_id;
+	}
+
+	static CartItemList(user_id){
+		return this.baseURL+"CartItemList/"+user_id;
+	}
+
+	static RemoveCartItem(item_id){
+		return this.baseURL+"RemoveCartItem/"+item_id;
+	}
+
+	
 }
 export default ApiURL;

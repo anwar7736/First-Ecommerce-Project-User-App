@@ -42,8 +42,10 @@ class UserLogin extends Component {
             .then(response=>{
                 if(response.status==200 && response.data!=0)
                 {
+                    SessionHelper.setIdSession(response.data.id);
                     SessionHelper.setNameSession(response.data.name);
                     SessionHelper.setEmailSession(response.data.email);
+                    SessionHelper.setPhoneSession(response.data.phone);
                     SessionHelper.setPhotoSession(response.data.photo);
                     document.getElementById('UserForm').reset();
                     this.setState({redirectStatus : true});
