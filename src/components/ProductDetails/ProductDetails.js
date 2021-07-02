@@ -24,6 +24,7 @@ class ProductDetails extends Component {
             size : '',
             quantity : '',
             refreshStatus : false,
+            redirectStatus : false,
         }
     }
 
@@ -72,6 +73,52 @@ class ProductDetails extends Component {
         })
     } 
 
+    OrderNow=()=>
+    {
+        let user_id = SessionHelper.getIdSession();
+        let product_code = this.state.code;
+        let product_color = this.state.color;
+        let product_size = this.state.size;
+        let product_quantity = this.state.quantity;
+
+        if(this.state.isColor==='YES' && product_color.length===0)
+        {
+              cogoToast.error('Please Select Color', {position : 'bottom-center'});
+        }
+
+        else if(this.state.isSize==='YES' && product_size.length===0)
+        {
+              cogoToast.error('Please Select Size', {position : 'bottom-center'});
+        }
+
+        else if(product_quantity.length===0)
+        {
+              cogoToast.error('Please Choose Quantity', {position : 'bottom-center'});
+        }
+
+        let MyForm = new FormData();
+        MyForm.append('user_id', user_id);
+        MyForm.append('product_code', product_code);
+        MyForm.append('product_color', product_color);
+        MyForm.append('product_size', product_size);
+        MyForm.append('product_quantity', product_quantity);
+        Axios.post(ApiURL.AddToCart, MyForm)
+        .then(response=>{
+            if(response.status===200 && response.data===1)
+            {
+                cogoToast.success('Product Added to Cart List', {position : 'bottom-center'});
+               this.setState({redirectStatus: true});
+            }
+            else if(response.status===200 && response.data===0)
+            {
+                cogoToast.error('Something Went Wrong!', {position : 'bottom-center'});
+            }
+        })
+        .catch(error=>{
+             //cogoToast.error('Something Went Wrong!', {position : 'bottom-center'});
+        })
+    }
+
     AddToFavourite=()=>{
         let user_id = SessionHelper.getIdSession();
         let product_code = this.state.code;
@@ -106,6 +153,15 @@ class ProductDetails extends Component {
             let URL = window.location;
             return (
                     <Redirect to={URL} />
+                    );
+        }
+    }
+
+    RedirectToCart=()=>{
+        if(this.state.redirectStatus===true)
+        {
+            return (
+                    <Redirect to="/cart" />
                     );
         }
     }
@@ -295,7 +351,7 @@ class ProductDetails extends Component {
 
                                     <div className="input-group mt-3">
                                         <button onClick={this.AddToCart} className="btn site-btn m-1 "> <i className="fa fa-shopping-cart"></i>  Add To Cart</button>
-                                        <button className="btn btn-primary m-1"> <i className="fa fa-car"></i> Order Now</button>
+                                        <button onClick={this.OrderNow} className="btn btn-primary m-1"> <i className="fa fa-car"></i> Order Now</button>
                                         <button onClick={this.AddToFavourite} className="btn btn-primary m-1"> <i className="fa fa-heart"></i> Favourite</button>
                                     </div>
                                 </Col>
@@ -316,6 +372,7 @@ class ProductDetails extends Component {
                     </Row>
                 </Container>
                 {this.PageRefresh()}
+                {this.RedirectToCart()}
             </Fragment>
         );
     }
