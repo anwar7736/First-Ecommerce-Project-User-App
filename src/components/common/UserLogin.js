@@ -12,8 +12,8 @@ class UserLogin extends Component {
       constructor(){
         super();
         this.state = {
-            username : '',
-            password : '',
+            username : 'anwarhossain7736',
+            password : '123',
             redirectStatus : false,
         }
     }
@@ -61,12 +61,24 @@ class UserLogin extends Component {
         }
         
     }
-    onRedirectHome=()=>{
+    RedirectPage=()=>{
         if(this.state.redirectStatus===true){
-            return (
-                    <Redirect to="/" />
-                   );
+        let redirect_path = SessionHelper.getRedirectPathSession();
+
+        if(redirect_path!==null)
+        {
+            return(
+                <Redirect to={redirect_path} />
+            )
         }
+        else
+        {
+             return(
+                <Redirect to="/" />
+            )
+        }
+        
+    }
     }
     render() {
         return (
@@ -84,8 +96,8 @@ class UserLogin extends Component {
                                 <Col className="" md={12} lg={12} sm={12} xs={12}>
                                     <Form id="UserForm" onSubmit={this.onLoginHandler} className="onboardForm">
                                         <h3 className="section-title mt-3">USER LOGIN</h3>
-                                        <input onChange={(e)=>this.setState({username : e.target.value})} className="form-control m-2" type="text" placeholder="Username or Email..."/>
-                                        <input onChange={(e)=>this.setState({password : e.target.value})} className="form-control m-2" type="password" placeholder="User Password..."/>
+                                        <input value={this.state.username} onChange={(e)=>this.setState({username : e.target.value})} className="form-control m-2" type="text" placeholder="Username or Email..."/>
+                                        <input value={this.state.password} onChange={(e)=>this.setState({password : e.target.value})} className="form-control m-2" type="password" placeholder="User Password..."/>
                                         <Button type="submit" className="btn btn-block m-2 site-btn">Login</Button>
                                         <span className="text-danger" >No yet a registered? <Link to="/user_signup">Signup</Link></span><br/>
                                         <span><Link to="/forget_password">Forgotten Password?</Link></span>
@@ -96,7 +108,7 @@ class UserLogin extends Component {
                         </Col>
                     </Row>
                 </Container>
-                {this.onRedirectHome()}
+                {this.RedirectPage()}
             </Fragment>
         );
     }

@@ -7,7 +7,7 @@ import FooterDesktop from '../components/common/FooterDesktop';
 import FooterMobile from '../components/common/FooterMobile';
 import Axios from 'axios';
 import ApiURL from '../api/ApiURL';
-import DescriptionPlaceholder from '../components/placeholder/DescriptionPlaceholder'
+import DescriptionPlaceholder from '../components/placeholder/DescriptionPlaceholder';
 
 class NotificationPage extends React.Component{
     constructor(){

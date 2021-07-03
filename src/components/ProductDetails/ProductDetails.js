@@ -25,11 +25,15 @@ class ProductDetails extends Component {
             quantity : '',
             refreshStatus : false,
             redirectStatus : false,
+            pageRedirectStatus : false,
         }
     }
 
     AddToCart=()=>{
         let user_id = SessionHelper.getIdSession();
+        if(user_id!==null)
+        {
+
         let product_code = this.state.code;
         let product_color = this.state.color;
         let product_size = this.state.size;
@@ -71,11 +75,24 @@ class ProductDetails extends Component {
         .catch(error=>{
              //cogoToast.error('Something Went Wrong!', {position : 'bottom-center'});
         })
-    } 
+    }
+        else
+        {
+            this.setState({pageRedirectStatus:true});
+            let path_name = window.location.pathname;
+            SessionHelper.setRedirectPathSession(path_name);
+        }
+    }
+    
+
+
+
 
     OrderNow=()=>
     {
         let user_id = SessionHelper.getIdSession();
+        if(user_id!==null)
+        {
         let product_code = this.state.code;
         let product_color = this.state.color;
         let product_size = this.state.size;
@@ -117,12 +134,22 @@ class ProductDetails extends Component {
         .catch(error=>{
              //cogoToast.error('Something Went Wrong!', {position : 'bottom-center'});
         })
+        }
+        else
+        {
+            this.setState({pageRedirectStatus:true});
+            let path_name = window.location.pathname;
+            SessionHelper.setRedirectPathSession(path_name);
+        }
     }
+        
+    
 
     AddToFavourite=()=>{
         let user_id = SessionHelper.getIdSession();
+        if(user_id!==null)
+        {
         let product_code = this.state.code;
-
         let MyForm = new FormData();
         MyForm.append('user_id', user_id);
         MyForm.append('product_code', product_code);
@@ -141,6 +168,14 @@ class ProductDetails extends Component {
         .catch(error=>{
              cogoToast.error('Something Went Wrong!', {position : 'bottom-center'});
         })
+        }
+
+        else
+        {
+            this.setState({pageRedirectStatus:true});
+            let path_name = window.location.pathname;
+            SessionHelper.setRedirectPathSession(path_name);
+        }
     }
     previewImg=(event)=>{
         let selectedImg = event.target.src;
@@ -162,6 +197,14 @@ class ProductDetails extends Component {
         {
             return (
                     <Redirect to="/cart" />
+                    );
+        }
+    }
+    RedirectToLogin=()=>{
+         if(this.state.pageRedirectStatus===true)
+        {
+            return (
+                    <Redirect to="/user_login" />
                     );
         }
     }
@@ -373,6 +416,8 @@ class ProductDetails extends Component {
                 </Container>
                 {this.PageRefresh()}
                 {this.RedirectToCart()}
+                {this.RedirectToLogin()}
+
             </Fragment>
         );
     }

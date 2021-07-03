@@ -11,25 +11,10 @@ class Favourite extends Component {
     constructor(){
         super();
         this.state = {
-            FavList : [],
             refreshStatus : false,
         }
     }
-    componentDidMount(){
-        let user_id = SessionHelper.getIdSession();
 
-        Axios.get(ApiURL.FavItemList(user_id))
-        .then(response=>{
-            if(response.status===200)
-            {
-                this.setState({FavList : response.data});
-            }
-        })
-        .catch(error=>{
-
-        })
-    }
-    
     RemoveFavItem=(item_id)=>{
          Axios.get(ApiURL.RemoveFavItem(item_id))
         .then(response=>{
@@ -58,7 +43,7 @@ class Favourite extends Component {
         }
     }
     render() {
-       let MyList = this.state.FavList;
+       let MyList = this.props.FavList;
 
        let MyView = MyList.map((List,i)=>{
             return (

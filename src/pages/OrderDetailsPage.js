@@ -1,25 +1,35 @@
 import React, {Component, Fragment} from 'react';
 import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router';
 import NavMenuMobile from '../components/common/NavMenuMobile';
 import NavMenuDesktop from '../components/common/NavMenuDesktop';
-import ForgetPassword from '../components/common/ForgetPassword';
+import OrderDetails from '../components/OrderDetails/OrderDetails';
 import FooterDesktop from '../components/common/FooterDesktop';
 import FooterMobile from '../components/common/FooterMobile';
-import DescriptionPlaceholder from '../components/placeholder/DescriptionPlaceholder'
+import Axios from 'axios';
+import ApiURL from '../api/ApiURL';
+import cogoToast from 'cogo-toast';
 import SessionHelper from '../SessionHelper/SessionHelper';
+import DescriptionPlaceholder from '../components/placeholder/DescriptionPlaceholder';
+import {Redirect} from 'react-router';
 
-class ForgetPasswordPage extends React.Component{
-    constructor(){
+class OrderDetailsPage extends React.Component{
+     constructor() {
         super();
-        this.state = {
+        this.state={
+            ProductData:[],
+            isLoading : 'mt-5',
+            mainDiv : 'd-none',
             redirectStatus : false,
         }
     }
     componentDidMount() {
         window.scroll(0,0);
-        
-        if(SessionHelper.getIdSession()!==null)
+         let user_id = SessionHelper.getIdSession();
+         Axios.get(ApiURL.GetOrderDetails(user_id))
+        .then(response=> {
+            this.setState({ProductData:response.data, isLoading:'d-none',mainDiv:''})
+        })
+        if(user_id===null)
         {
             this.setState({redirectStatus:true})
         }
@@ -28,7 +38,7 @@ class ForgetPasswordPage extends React.Component{
         if(this.state.redirectStatus===true)
         {
              return(
-                <Redirect to="/" />
+                <Redirect to="/user_login" />
             )
         }
 }
@@ -41,8 +51,11 @@ class ForgetPasswordPage extends React.Component{
             <div className="Desktop">
                 <NavMenuDesktop/>
             </div>
-           <div>
-                <ForgetPassword/>
+           <div className={this.state.isLoading} >
+                <DescriptionPlaceholder/>
+           </div>
+           <div className={this.state.mainDiv} >
+                <OrderDetails ProductData={this.state.ProductData} />
            </div>
             <div className="Desktop">
                 <FooterDesktop/>
@@ -56,4 +69,4 @@ class ForgetPasswordPage extends React.Component{
   }
 }
 
-export default ForgetPasswordPage;
+export default OrderDetailsPage;

@@ -14,6 +14,9 @@ class ApiURL{
 	static AddToCart = this.baseURL + "AddToCart";
 	static ItemQtyIncrease = this.baseURL + "ItemQtyIncrease";
 	static ItemQtyDecrease = this.baseURL + "ItemQtyDecrease";
+	static PlaceUserOrder = this.baseURL + "PlaceUserOrder";
+	static PostUserReview = this.baseURL + "PostUserReview";
+	static UpdateProfile = this.baseURL + "UpdateProfile";
 
 	static ProductListByRemark(remark){
 		return this.baseURL+"ProductListByRemark/"+remark;
@@ -61,6 +64,14 @@ class ApiURL{
 
 	static RemoveCartItem(item_id){
 		return this.baseURL+"RemoveCartItem/"+item_id;
+	}
+
+	static GetOrderDetails(user_id){
+		return this.baseURL+"GetOrderDetails/"+user_id;
+	}
+	
+	static GetUserProfile(user_id){
+		return this.baseURL+"GetUserProfile/"+user_id;
 	}
 
 	

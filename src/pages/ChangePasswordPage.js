@@ -6,11 +6,32 @@ import ChangePassword from '../components/common/ChangePassword';
 import FooterDesktop from '../components/common/FooterDesktop';
 import FooterMobile from '../components/common/FooterMobile';
 import DescriptionPlaceholder from '../components/placeholder/DescriptionPlaceholder'
+import SessionHelper from '../SessionHelper/SessionHelper';
+import {Redirect} from 'react-router';
 
 class ForgetPasswordPage extends React.Component{
-    componentDidMount() {
-        window.scroll(0,0)
+     constructor(){
+        super();
+        this.state = {
+            redirectStatus : false,
+        }
     }
+    componentDidMount() {
+        window.scroll(0,0);
+        let user_id = SessionHelper.getIdSession();
+        if(user_id===null)
+        {
+            this.setState({redirectStatus:true})
+        }
+}
+RedirectToHome=()=>{
+        if(this.state.redirectStatus===true)
+        {
+             return(
+                <Redirect to="/user_login" />
+            )
+        }
+}
  render() {
     return (
         <Fragment>
@@ -29,6 +50,7 @@ class ForgetPasswordPage extends React.Component{
             <div className="Mobile">
                 <FooterMobile/>
             </div>
+                {this.RedirectToHome()}
         </Fragment>
     );
   }

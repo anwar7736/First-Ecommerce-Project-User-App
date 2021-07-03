@@ -122,7 +122,10 @@ class NavMenuMobile extends Component {
                                 </NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item>
-                                    <Link to="/">Profile</Link>
+                                <Link to="/order_details">Order List</Link>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item>
+                                    <Link to="/user_profile">Profile</Link>
                                 </NavDropdown.Item>
                                 <NavDropdown.Item>
                                     <Link to="/change_password">Change Password</Link>

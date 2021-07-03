@@ -47,11 +47,7 @@ class NavMenuDesktop extends React.Component{
     }
 
     onLogout=()=>{
-        sessionStorage.removeItem('id');
-        sessionStorage.removeItem('name');
-        sessionStorage.removeItem('email');
-        sessionStorage.removeItem('phone');
-        sessionStorage.removeItem('photo');
+        sessionStorage.clear();
         this.setState({homeRedirectStatus : true});
       
     }
@@ -124,9 +120,12 @@ class NavMenuDesktop extends React.Component{
                             </NavDropdown.Item>
                             <NavDropdown.Item>
                                 <Link to="/favourite" className="btn"><i className="fa h4 fa-heart"></i>  <sup><span className="badge text-white bg-danger">1</span></sup></Link>
+                            </NavDropdown.Item> 
+                            <NavDropdown.Item>
+                                <Link to="/order_details" className="btn"><i className="fa h4 fa-user"></i> Order List</Link>
                             </NavDropdown.Item>
                              <NavDropdown.Item>
-                                <Link to="/"><span className="text-success">My Profile</span></Link>
+                                <Link to="/user_profile"><span className="text-success">My Profile</span></Link>
                             </NavDropdown.Item>
                             <NavDropdown.Item>
                                 <Link to="/change_password"><span className="text-danger">Change Password</span></Link>

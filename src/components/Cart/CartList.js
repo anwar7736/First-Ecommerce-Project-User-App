@@ -12,7 +12,14 @@ class CartList extends React.Component{
         super();
         this.state = {
             CartList : [],
+            redirectStatus : false,
             refreshStatus : false,
+            delivery_charge : 0,
+            customer_city : '',
+            payment_method : '',
+            customer_name : '',
+            customer_mobile : '',
+            current_address : '',
         }
     }
     componentDidMount(){
@@ -28,10 +35,109 @@ class CartList extends React.Component{
         .catch(error=>{
 
         })
+       
+    }
+
+    cityOnchange=(e)=>
+    {
+        let city = e.target.value;
+        this.setState({customer_city:city});
+        if(city==='')
+        {
+            this.setState({delivery_charge:0});
+        }
+        else if(city==='Dhaka')
+        {
+            this.setState({delivery_charge:50});
+        }
+        else if(city==='Barisal')
+        {
+            this.setState({delivery_charge:250});
+        }
+        else if(city==='Khulna')
+        {
+            this.setState({delivery_charge:150});
+        }
+        else if(city==='Jessore')
+        {
+            this.setState({delivery_charge:100});
+        }
+        else if(city==='Chittagong')
+        {
+            this.setState({delivery_charge:200});
+        }
+        else if(city==='Mymensingh')
+        {
+            this.setState({delivery_charge:150});
+        }
+       
+        
+    }
+
+    onConfirmOrder=()=>
+    {
+        let customer_city  = this.state.customer_city;
+        let payment_method  = this.state.payment_method;
+        let customer_name  = this.state.customer_name;
+        let customer_mobile  = this.state.customer_mobile;
+        let current_address  = this.state.current_address;
+        let delivery_charge  = this.state.delivery_charge;
+
+        if(customer_city.length===0)
+        {
+            cogoToast.error('Choose Your City');
+        }
+        else if(payment_method.length===0)
+        {
+             cogoToast.error('Choose Payment Method');
+        }
+        else if(customer_name.length===0)
+        {
+             cogoToast.error('Enter Your Fullname');
+        }
+        else if(customer_mobile.length===0)
+        {
+             cogoToast.error('Enter Your Current Mobile No.');
+        }
+        else if(current_address.length===0)
+        {
+             cogoToast.error('Enter Your Current Address');
+        }
+        else if(payment_method.length===0)
+        {
+             cogoToast.error('Choose Payment Method');
+        }
+        else
+        {
+            let MyForm = new FormData();
+            MyForm.append('user_id', SessionHelper.getIdSession());
+            MyForm.append('customer_city', customer_city);
+            MyForm.append('payment_method', payment_method);
+            MyForm.append('delivery_charge', delivery_charge);
+            MyForm.append('customer_name', customer_name);
+            MyForm.append('customer_mobile', customer_mobile);
+            MyForm.append('customer_address', current_address);
+
+            Axios.post(ApiURL.PlaceUserOrder, MyForm)
+            .then(response=>{
+                if(response.status===200 && response.data===1)
+                {   
+                    this.setState({redirectStatus:true});
+                    cogoToast.success('Your order has been received');
+                }
+                else
+                {
+                     cogoToast.error('Something Went Wrong!');
+                }
+            })
+            .catch(error=>{
+
+            })
+        }
     }
 
     ItemQtyIncrease=(item_id, price, quantity)=>
-    {
+    {   
         let MyForm = new FormData();
         MyForm.append('id', item_id);
         MyForm.append('product_quantity', quantity);
@@ -107,6 +213,14 @@ class CartList extends React.Component{
                     );
         }
     }
+    RedirectToOrderDetails=()=>{
+        if(this.state.redirectStatus===true)
+        {
+            return(
+                    <Redirect to="/order_details" />
+                )
+        }
+    }
     render(){
         let MyList = this.state.CartList;
         let totalPrice = 0;
@@ -133,6 +247,7 @@ class CartList extends React.Component{
 
                             );
         })
+
         return (
             <Fragment>
                 <Container className="TopSection">
@@ -152,13 +267,15 @@ class CartList extends React.Component{
                                             <div className="container-fluid ">
                                                 <div className="row">
                                                     <div className="col-md-12 p-1  col-lg-12 col-sm-12 col-12">
-                                                        <h5 className="Product-Name text-danger">Total Due: {totalPrice} TK</h5>
+                                                        <h5 className="Product-Name text-success">Due : {totalPrice} TK</h5>
+                                                        <h6 className="Product-subtitle text-danger">Delivery Charge : {this.state.delivery_charge} TK</h6>
+                                                        <h5 className="Product-Name text-info">Total Due with Delivery : {totalPrice+this.state.delivery_charge} TK</h5>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-12 p-1 col-lg-12 col-sm-12 col-12">
-                                                        <label className="form-label">Choose City</label>
-                                                        <select className="form-control">
+                                                        <label className="form-label">Choose Your City</label>
+                                                        <select onChange={this.cityOnchange} className="form-control">
                                                             <option value="">Choose</option>
                                                             <option value="Dhaka">Dhaka</option>
                                                             <option value="Khulna">Khulna</option>
@@ -170,22 +287,27 @@ class CartList extends React.Component{
                                                     </div>
                                                     <div className="col-md-12 p-1 col-lg-12 col-sm-12 col-12">
                                                         <label className="form-label">Choose Payment Method</label>
-                                                        <select className="form-control">
+                                                        <select onChange={(e)=>this.setState({payment_method:e.target.value})} className="form-control">
                                                            
-                                                            <option value="Cash On Delivery" selected disabled>Cash On Delivery</option>
+                                                            <option value="">Choose</option>
+                                                            <option value="Cash On Delivery">Cash On Delivery</option>
                                                         </select>
                                                     </div>
                                                     <div className="col-md-12 p-1 col-lg-12 col-sm-12 col-12">
-                                                        <label className="form-label">Your Name</label>
-                                                        <input className="form-control" type="text" placeholder=""/>
+                                                        <label className="form-label">Your Full Name</label>
+                                                        <input onChange={(e)=>this.setState({customer_name:e.target.value})} className="form-control" type="text" placeholder=""/>
+                                                    </div> 
+                                                    <div className="col-md-12 p-1 col-lg-12 col-sm-12 col-12">
+                                                        <label className="form-label">Your Current Mobile Number</label>
+                                                        <input onChange={(e)=>this.setState({customer_mobile:e.target.value})} className="form-control" type="text" placeholder=""/>
                                                     </div>
 
                                                     <div className="col-md-12 p-1 col-lg-12 col-sm-12 col-12">
-                                                        <label className="form-label">Delivery Address</label>
-                                                        <textarea rows={2}  className="form-control" type="text" placeholder=""/>
+                                                        <label className="form-label">Your Current Address</label>
+                                                        <textarea onChange={(e)=>this.setState({current_address:e.target.value})} rows={2}  className="form-control" type="text" placeholder=""/>
                                                     </div>
                                                     <div className="col-md-12 p-1 col-lg-12 col-sm-12 col-12">
-                                                        <button className="btn btn-block btn-success">Confirm Order</button>
+                                                        <button onClick={this.onConfirmOrder} className="btn btn-block btn-success">Confirm Order</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -196,6 +318,7 @@ class CartList extends React.Component{
                     </Row>
                 </Container>
                 {this.PageRefresh()}
+                {this.RedirectToOrderDetails()}
             </Fragment>
         )
     }

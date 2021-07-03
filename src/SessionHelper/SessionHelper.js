@@ -39,37 +39,44 @@ class SessionHelper{
 	static getPhotoSession(){
 		return sessionStorage.getItem('photo');
 	}
+	static setRedirectPathSession(redirect_path){
+		sessionStorage.setItem('redirect_path', redirect_path);
+	}
+
+	static getRedirectPathSession(){
+		return sessionStorage.getItem('redirect_path');
+	}
 
 	static setAboutSession(about){
-		sessionStorage.setItem('about', about);
+		localStorage.setItem('about', about);
 	}
 
 	static getAboutSession(){
-		return sessionStorage.getItem('about');
+		return localStorage.getItem('about');
 	}
 
 	static setRefundSession(refund){
-		sessionStorage.setItem('refund', refund);
+		localStorage.setItem('refund', refund);
 	}
 
 	static getRefundSession(){
-		return sessionStorage.getItem('refund');
+		return localStorage.getItem('refund');
 	}
 
 	static setPolicySession(policy){
-		sessionStorage.setItem('policy', policy);
+		localStorage.setItem('policy', policy);
 	}
 
 	static getPolicySession(){
-		return sessionStorage.getItem('policy');
+		return localStorage.getItem('policy');
 	}
 
 	static setPurchaseSession(purchase){
-		sessionStorage.setItem('purchase', purchase);
+		localStorage.setItem('purchase', purchase);
 	}
 
 	static getPurchaseSession(){
-		return sessionStorage.getItem('purchase');
+		return localStorage.getItem('purchase');
 	}
 
 

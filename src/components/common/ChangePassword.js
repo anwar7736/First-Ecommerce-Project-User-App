@@ -108,7 +108,7 @@ class ChangePassword extends Component {
                     <Row>
                         <Breadcrumb className=" shadow-sm w-100 bg-white mt-3">
                           <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
-                          <Breadcrumb.Item><Link to="/forget_password">Forget Password</Link></Breadcrumb.Item>
+                          <Breadcrumb.Item><Link to="/change_password">Change Password</Link></Breadcrumb.Item>
                         </Breadcrumb>
                     </Row>
                     <Row className="p-0">
